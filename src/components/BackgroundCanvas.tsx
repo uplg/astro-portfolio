@@ -195,6 +195,7 @@ const BackgroundCanvas = (): JSX.Element => {
   const animationIdRef = useRef<number | null>(null);
   const resizeHandlerRef = useRef<(() => void) | null>(null);
   const colorPaletteRef = useRef<ColorPalette | null>(null);
+  const prefersReducedMotion = useRef<boolean>(false);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -202,6 +203,14 @@ const BackgroundCanvas = (): JSX.Element => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    prefersReducedMotion.current = mediaQuery.matches;
+
+    const handleMotionPreferenceChange = (e: MediaQueryListEvent) => {
+      prefersReducedMotion.current = e.matches;
+    };
+    mediaQuery.addEventListener("change", handleMotionPreferenceChange);
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -243,7 +252,9 @@ const BackgroundCanvas = (): JSX.Element => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       orbs.forEach((orb) => {
-        orb.update();
+        if (!prefersReducedMotion.current) {
+          orb.update();
+        }
         orb.render(ctx);
       });
 
@@ -260,6 +271,7 @@ const BackgroundCanvas = (): JSX.Element => {
         window.removeEventListener("resize", resizeHandlerRef.current);
       }
       window.removeEventListener("randomizeColors", handleRandomizeColors);
+      mediaQuery.removeEventListener("change", handleMotionPreferenceChange);
       orbsRef.current.forEach((orb) => orb.destroy());
       orbsRef.current = [];
     };
