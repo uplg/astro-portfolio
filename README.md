@@ -1,5 +1,8 @@
 # Portfolio
 
+![Status](https://status.uplg.xyz/api/badge/3/status)
+![Uptime](https://status.uplg.xyz/api/badge/3/uptime)
+
 ## 🧞 Commands
 
 | Command             | Action                                                     |
@@ -15,7 +18,7 @@
 - **Astro** : Modern web framework
 - **React** : React library for interactive components
 - **TypeScript** : Static typing
-- **Canvas** : From beautiful dynamic background (with simplex-noise)
+- **Canvas** : For beautiful dynamic background (with simplex-noise)
 
 ## 📦 Notable dependencies
 
