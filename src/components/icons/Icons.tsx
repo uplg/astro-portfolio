@@ -2,6 +2,7 @@ import { type JSX } from "react";
 
 export const GithubLogo = (): JSX.Element => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <title>Github</title>
     <rect x="0" fill="none" width="24" height="24"></rect>
     <g>
       <path
