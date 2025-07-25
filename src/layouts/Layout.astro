@@ -9,6 +9,7 @@ export interface Props {
 }
 
 const { title, description } = Astro.props;
+const currentPath = Astro.url.pathname;
 ---
 
 <!DOCTYPE html>
@@ -28,7 +29,7 @@ const { title, description } = Astro.props;
   <body>
     <BackgroundCanvas client:load transition:persist />
     <slot />
-    <Footer client:load transition:persist />
+    <Footer client:load transition:persist currentPath={currentPath} />
   </body>
 </html>
 
@@ -426,6 +427,12 @@ const { title, description } = Astro.props;
     opacity: 1;
   }
 
+  .footer-link.active {
+    opacity: 1;
+    font-weight: 600;
+    color: var(--main-color);
+  }
+
   .footer-link > svg {
     width: 35px;
     height: 35px;
@@ -597,6 +604,11 @@ const { title, description } = Astro.props;
 
   .footer-menu .footer-link:hover {
     background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-menu .footer-link.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
   }
 
   .footer-menu .footer-link > svg {

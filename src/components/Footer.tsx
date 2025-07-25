@@ -3,7 +3,11 @@ import { useState, useEffect, useRef } from "react";
 import { GithubLogo } from "./icons/Icons";
 import StatusIndicator from "./StatusIndicator";
 
-const Footer = (): JSX.Element => {
+interface FooterProps {
+  currentPath?: string;
+}
+
+const Footer = ({ currentPath = "/" }: FooterProps): JSX.Element => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const footerRef = useRef<HTMLElement>(null);
 
@@ -43,21 +47,21 @@ const Footer = (): JSX.Element => {
         <div className="footer-menu-content">
           <a
             href="/"
-            className="footer-link"
+            className={`footer-link ${currentPath === "/" ? "active" : ""}`}
             onClick={() => setIsMenuOpen(false)}
           >
             Home
           </a>
           <a
             href="/projects"
-            className="footer-link"
+            className={`footer-link ${currentPath === "/projects" ? "active" : ""}`}
             onClick={() => setIsMenuOpen(false)}
           >
             Projects
           </a>
           <a
             href="/contact"
-            className="footer-link"
+            className={`footer-link ${currentPath === "/contact" ? "active" : ""}`}
             onClick={() => setIsMenuOpen(false)}
           >
             Contact
@@ -88,13 +92,13 @@ const Footer = (): JSX.Element => {
       </div>
 
       <div className="footer-content desktop-menu">
-        <a href="/" className="footer-link">
+        <a href="/" className={`footer-link ${currentPath === "/" ? "active" : ""}`}>
           Home
         </a>
-        <a href="/projects" className="footer-link">
+        <a href="/projects" className={`footer-link ${currentPath === "/projects" ? "active" : ""}`}>
           Projects
         </a>
-        <a href="/contact" className="footer-link">
+        <a href="/contact" className={`footer-link ${currentPath === "/contact" ? "active" : ""}`}>
           Contact
         </a>
         <a
