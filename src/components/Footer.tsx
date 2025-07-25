@@ -1,5 +1,6 @@
 import { type JSX } from "react";
 import { GithubLogo } from "./icons/Icons";
+import StatusIndicator from "./StatusIndicator";
 
 const Footer = (): JSX.Element => {
   const randomizeColors = () => {
@@ -20,14 +21,6 @@ const Footer = (): JSX.Element => {
           Contact
         </a>
         <a
-          href="https://status.uplg.xyz/status/uplg"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="footer-link"
-        >
-          Status
-        </a>
-        <a
           href="https://github.com/uplg"
           target="_blank"
           rel="noopener noreferrer"
@@ -43,6 +36,8 @@ const Footer = (): JSX.Element => {
         >
           🎨
         </button>
+
+        <StatusIndicator />
       </div>
     </footer>
   );

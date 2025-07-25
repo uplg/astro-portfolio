@@ -24,7 +24,7 @@ const { title } = Astro.props;
   <body>
     <BackgroundCanvas client:load transition:persist />
     <slot />
-    <Footer client:load />
+    <Footer client:load transition:persist />
   </body>
 </html>
 
@@ -446,6 +446,43 @@ const { title } = Astro.props;
     background-color: rgba(255, 255, 255, 0.1);
   }
 
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--main-color);
+  }
+
+  .status-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .status-text {
+    font-size: 0.85rem;
+    opacity: 0.9;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 currentColor;
+    }
+    
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 4px transparent;
+    }
+    
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+
   @media screen and (max-width: 450px) {
     .footer {
       padding: 0.75rem 1rem;
@@ -462,6 +499,14 @@ const { title } = Astro.props;
     .color-randomizer {
       font-size: 1rem;
       padding: 0.4rem;
+    }
+
+    .status-indicator {
+      gap: 0.3rem;
+    }
+
+    .status-text {
+      font-size: 0.75rem;
     }
   }
 </style>
