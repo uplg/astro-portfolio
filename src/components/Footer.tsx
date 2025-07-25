@@ -17,22 +17,34 @@ const Footer = (): JSX.Element => {
   return (
     <footer className="footer">
       {/* Menu burger pour mobile */}
-      <button className="burger-menu" onClick={toggleMenu}>
-        <span className={`burger-line ${isMenuOpen ? 'open' : ''}`}></span>
-        <span className={`burger-line ${isMenuOpen ? 'open' : ''}`}></span>
-        <span className={`burger-line ${isMenuOpen ? 'open' : ''}`}></span>
+      <button className="burger-menu" onClick={toggleMenu} aria-label="Menu">
+        <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
+        <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
+        <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
       </button>
 
       {/* Menu expandable */}
-      <div className={`footer-menu ${isMenuOpen ? 'open' : ''}`}>
+      <div className={`footer-menu ${isMenuOpen ? "open" : ""}`}>
         <div className="footer-menu-content">
-          <a href="/" className="footer-link" onClick={() => setIsMenuOpen(false)}>
+          <a
+            href="/"
+            className="footer-link"
+            onClick={() => setIsMenuOpen(false)}
+          >
             Home
           </a>
-          <a href="/projects" className="footer-link" onClick={() => setIsMenuOpen(false)}>
+          <a
+            href="/projects"
+            className="footer-link"
+            onClick={() => setIsMenuOpen(false)}
+          >
             Projects
           </a>
-          <a href="/contact" className="footer-link" onClick={() => setIsMenuOpen(false)}>
+          <a
+            href="/contact"
+            className="footer-link"
+            onClick={() => setIsMenuOpen(false)}
+          >
             Contact
           </a>
           <a
