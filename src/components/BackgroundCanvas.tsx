@@ -51,6 +51,26 @@ class ColorPalette {
     return this.colorChoices[~~random(0, this.colorChoices.length)];
   }
 
+  setColors() {
+    this.hue = ~~random(220, 360);
+    this.complimentaryHue1 = this.hue + 30;
+    this.complimentaryHue2 = this.hue + 60;
+
+    const baseColor = hslToHex(this.hue, this.saturation, this.lightness);
+    const complimentaryColor1 = hslToHex(
+      this.complimentaryHue1,
+      this.saturation,
+      this.lightness
+    );
+    const complimentaryColor2 = hslToHex(
+      this.complimentaryHue2,
+      this.saturation,
+      this.lightness
+    );
+
+    this.colorChoices = [baseColor, complimentaryColor1, complimentaryColor2];
+  }
+
   setCustomProperties() {
     document.documentElement.style.setProperty("--hue", `${this.hue}`);
     document.documentElement.style.setProperty(
@@ -153,6 +173,10 @@ class Orb {
     ctx.restore();
   }
 
+  updateColor(newColor: string) {
+    this.color = newColor;
+  }
+
   destroy() {
     if (this.resizeHandler) {
       window.removeEventListener("resize", this.resizeHandler);
@@ -170,6 +194,7 @@ const BackgroundCanvas = (): JSX.Element => {
   const orbsRef = useRef<Orb[]>([]);
   const animationIdRef = useRef<number | null>(null);
   const resizeHandlerRef = useRef<(() => void) | null>(null);
+  const colorPaletteRef = useRef<ColorPalette | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -191,6 +216,7 @@ const BackgroundCanvas = (): JSX.Element => {
     window.addEventListener("resize", resizeHandler);
 
     const colorPalette = new ColorPalette();
+    colorPaletteRef.current = colorPalette;
     const orbs: Orb[] = [];
 
     for (let i = 0; i < 10; i++) {
@@ -199,6 +225,20 @@ const BackgroundCanvas = (): JSX.Element => {
     }
 
     orbsRef.current = orbs;
+
+    // Add event listener for color randomization
+    const handleRandomizeColors = () => {
+      if (colorPaletteRef.current) {
+        colorPaletteRef.current.setColors();
+        colorPaletteRef.current.setCustomProperties();
+        
+        orbsRef.current.forEach((orb) => {
+          orb.updateColor(colorPaletteRef.current!.randomColor());
+        });
+      }
+    };
+
+    window.addEventListener('randomizeColors', handleRandomizeColors);
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -220,6 +260,7 @@ const BackgroundCanvas = (): JSX.Element => {
       if (resizeHandlerRef.current) {
         window.removeEventListener("resize", resizeHandlerRef.current);
       }
+      window.removeEventListener('randomizeColors', handleRandomizeColors);
       orbsRef.current.forEach((orb) => orb.destroy());
       orbsRef.current = [];
     };

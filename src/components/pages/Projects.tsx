@@ -148,11 +148,6 @@ const Projects = (): JSX.Element => {
           </div>
         ))}
       </section>
-
-      <a className="back-home flex-link justify-end" href="/">
-        <ChevronLeft />
-        Home
-      </a>
     </div>
   );
 };

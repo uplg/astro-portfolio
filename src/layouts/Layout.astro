@@ -1,5 +1,6 @@
 ---
 import BackgroundCanvas from '../components/BackgroundCanvas';
+import Footer from '../components/Footer';
 import { ClientRouter } from 'astro:transitions';
 
 export interface Props {
@@ -23,6 +24,7 @@ const { title } = Astro.props;
   <body>
     <BackgroundCanvas client:load transition:persist />
     <slot />
+    <Footer client:load />
   </body>
 </html>
 
@@ -90,6 +92,7 @@ const { title } = Astro.props;
     max-width: 1920px;
     min-height: 100vh;
     padding: 2rem;
+    padding-bottom: 5rem;
     color: var(--main-color);
     font-family: var(--uplg-font-primary);
     justify-content: center;
@@ -139,10 +142,6 @@ const { title } = Astro.props;
     justify-content: flex-end;
   }
 
-  .back-home {
-    margin-top: 16px;
-  }
-
   .app-container {
     width: 100%;
     display: flex;
@@ -171,6 +170,10 @@ const { title } = Astro.props;
   .hero h1 {
     margin: 24px 0;
     margin-bottom: 100px;
+  }
+
+  .contact .hero h1 {
+    margin-bottom: 0;
   }
 
   .areas {
@@ -340,10 +343,6 @@ const { title } = Astro.props;
   }
 
   @media only screen and (min-width: 840px) {
-    .page.home {
-      margin-top: 45px;
-    }
-
     .service {
       margin-bottom: 100px;
     }
@@ -377,6 +376,92 @@ const { title } = Astro.props;
 
     .project .excerpt .tags {
       flex-direction: column;
+    }
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 2rem;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 100;
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-link {
+    color: var(--main-color);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    font-size: 0.9rem;
+  }
+
+  .footer-link:hover {
+    opacity: 1;
+  }
+
+  .footer-link > svg {
+    width: 35px;
+    height: 35px;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footer-link > svg:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .color-randomizer {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+  }
+
+  .color-randomizer:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  @media screen and (max-width: 450px) {
+    .footer {
+      padding: 0.75rem 1rem;
+    }
+
+    .footer-content {
+      gap: 1rem;
+    }
+
+    .footer-link {
+      font-size: 0.8rem;
+    }
+
+    .color-randomizer {
+      font-size: 1rem;
+      padding: 0.4rem;
     }
   }
 </style>
