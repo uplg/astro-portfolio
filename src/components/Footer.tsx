@@ -1,10 +1,11 @@
 import { type JSX } from "react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { GithubLogo } from "./icons/Icons";
 import StatusIndicator from "./StatusIndicator";
 
 const Footer = (): JSX.Element => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const footerRef = useRef<HTMLElement>(null);
 
   const randomizeColors = () => {
     window.dispatchEvent(new CustomEvent("randomizeColors"));
@@ -14,8 +15,24 @@ const Footer = (): JSX.Element => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (footerRef.current && !footerRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
   return (
-    <footer className="footer">
+    <footer className="footer" ref={footerRef}>
       <button className="burger-menu" onClick={toggleMenu} aria-label="Menu">
         <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
         <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
