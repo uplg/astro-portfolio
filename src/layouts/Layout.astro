@@ -21,6 +21,7 @@ const { title, description } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <ClientRouter fallback="swap" />
+    <script defer is:inline data-domain="uplg.xyz" src="https://plausible.uplg.xyz/js/script.js"></script>
   </head>
   <body>
     <BackgroundCanvas client:load transition:persist />
