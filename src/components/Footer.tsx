@@ -16,14 +16,12 @@ const Footer = (): JSX.Element => {
 
   return (
     <footer className="footer">
-      {/* Menu burger pour mobile */}
       <button className="burger-menu" onClick={toggleMenu} aria-label="Menu">
         <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
         <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
         <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
       </button>
 
-      {/* Menu expandable */}
       <div className={`footer-menu ${isMenuOpen ? "open" : ""}`}>
         <div className="footer-menu-content">
           <a
@@ -72,7 +70,6 @@ const Footer = (): JSX.Element => {
         </div>
       </div>
 
-      {/* Menu desktop (caché sur mobile) */}
       <div className="footer-content desktop-menu">
         <a href="/" className="footer-link">
           Home
