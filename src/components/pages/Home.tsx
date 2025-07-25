@@ -45,10 +45,6 @@ const Home = (): JSX.Element => {
           </ul>
         </section>
       </section>
-
-      <div className="links">
-        <a href="/contact">// Contact.</a>
-      </div>
     </div>
   );
 };
