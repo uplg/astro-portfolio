@@ -231,14 +231,14 @@ const BackgroundCanvas = (): JSX.Element => {
       if (colorPaletteRef.current) {
         colorPaletteRef.current.setColors();
         colorPaletteRef.current.setCustomProperties();
-        
+
         orbsRef.current.forEach((orb) => {
           orb.updateColor(colorPaletteRef.current!.randomColor());
         });
       }
     };
 
-    window.addEventListener('randomizeColors', handleRandomizeColors);
+    window.addEventListener("randomizeColors", handleRandomizeColors);
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -260,7 +260,7 @@ const BackgroundCanvas = (): JSX.Element => {
       if (resizeHandlerRef.current) {
         window.removeEventListener("resize", resizeHandlerRef.current);
       }
-      window.removeEventListener('randomizeColors', handleRandomizeColors);
+      window.removeEventListener("randomizeColors", handleRandomizeColors);
       orbsRef.current.forEach((orb) => orb.destroy());
       orbsRef.current = [];
     };

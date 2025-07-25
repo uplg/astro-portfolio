@@ -52,8 +52,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Google Authenticator Export",
       slug: "ga-export",
-      description:
-        "Export every secret easily from Google Authenticator (Authy in another repo too.).",
+      description: "Export every secret easily from Google Authenticator.",
       repository: "https://github.com/uplg/gauth-export",
       status: "published",
       url: "https://ga.uplg.xyz",
