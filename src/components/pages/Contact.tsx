@@ -7,9 +7,22 @@ const Contact = (): JSX.Element => {
         <h1>Contact.</h1>
       </section>
 
-      <section className="areas">
+      <section className="methods">
         <p>
-          <a href="mailto:leonard@uplg.xyz">leonard@uplg.xyz</a>
+          Feel free to reach out to me for any inquiries, collaborations, or
+          just to say hello!
+        </p>
+        <p>
+          <a href="mailto:leonard@uplg.xyz">Mail</a>
+        </p>
+        <p>
+          <a
+            href="https://linkedin.com/in/uplg"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            LinkedIn
+          </a>
         </p>
       </section>
     </div>
