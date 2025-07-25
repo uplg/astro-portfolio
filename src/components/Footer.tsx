@@ -4,7 +4,6 @@ import StatusIndicator from "./StatusIndicator";
 
 const Footer = (): JSX.Element => {
   const randomizeColors = () => {
-    // Trigger a custom event to randomize colors in BackgroundCanvas
     window.dispatchEvent(new CustomEvent("randomizeColors"));
   };
 

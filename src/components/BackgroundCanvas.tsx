@@ -164,7 +164,7 @@ class Orb {
 
     const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.radius);
     gradient.addColorStop(0, this.color);
-    gradient.addColorStop(1, this.color + "00"); // Transparent
+    gradient.addColorStop(1, this.color + "00");
 
     ctx.fillStyle = gradient;
     ctx.beginPath();
@@ -226,7 +226,6 @@ const BackgroundCanvas = (): JSX.Element => {
 
     orbsRef.current = orbs;
 
-    // Add event listener for color randomization
     const handleRandomizeColors = () => {
       if (colorPaletteRef.current) {
         colorPaletteRef.current.setColors();
