@@ -1,5 +1,5 @@
 import { type JSX } from "react";
-import { GithubLogo, ChevronLeft } from "../icons/Icons";
+import { GithubLogo } from "../icons/Icons";
 
 interface Project {
   name: string;
