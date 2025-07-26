@@ -9,7 +9,6 @@ export interface Props {
 }
 
 const { title, description } = Astro.props;
-const currentPath = Astro.url.pathname;
 ---
 
 <!DOCTYPE html>
@@ -29,7 +28,7 @@ const currentPath = Astro.url.pathname;
   <body>
     <BackgroundCanvas client:load transition:persist />
     <slot />
-    <Footer client:load transition:persist currentPath={currentPath} />
+    <Footer client:load transition:persist />
   </body>
 </html>
 

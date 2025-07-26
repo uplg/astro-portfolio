@@ -3,12 +3,9 @@ import { useState, useEffect, useRef } from "react";
 import { GithubLogo } from "./icons/Icons";
 import StatusIndicator from "./StatusIndicator";
 
-interface FooterProps {
-  currentPath?: string;
-}
-
-const Footer = ({ currentPath = "/" }: FooterProps): JSX.Element => {
+const Footer = (): JSX.Element => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [clientPath, setClientPath] = useState("/");
   const footerRef = useRef<HTMLElement>(null);
 
   const randomizeColors = () => {
@@ -20,18 +17,41 @@ const Footer = ({ currentPath = "/" }: FooterProps): JSX.Element => {
   };
 
   useEffect(() => {
+    const updatePath = () => {
+      if (typeof window !== "undefined") {
+        const path = window.location.pathname.replace(/\/$/, "") || "/";
+        setClientPath(path);
+      }
+    };
+
+    updatePath();
+
+    document.addEventListener("astro:page-load", updatePath);
+
+    window.addEventListener("popstate", updatePath);
+
+    return () => {
+      document.removeEventListener("astro:page-load", updatePath);
+      window.removeEventListener("popstate", updatePath);
+    };
+  }, []);
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (footerRef.current && !footerRef.current.contains(event.target as Node)) {
+      if (
+        footerRef.current &&
+        !footerRef.current.contains(event.target as Node)
+      ) {
         setIsMenuOpen(false);
       }
     };
 
     if (isMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMenuOpen]);
 
@@ -47,21 +67,25 @@ const Footer = ({ currentPath = "/" }: FooterProps): JSX.Element => {
         <div className="footer-menu-content">
           <a
             href="/"
-            className={`footer-link ${currentPath === "/" ? "active" : ""}`}
+            className={`footer-link ${clientPath === "/" ? "active" : ""}`}
             onClick={() => setIsMenuOpen(false)}
           >
             Home
           </a>
           <a
             href="/projects"
-            className={`footer-link ${currentPath === "/projects" ? "active" : ""}`}
+            className={`footer-link ${
+              clientPath === "/projects" ? "active" : ""
+            }`}
             onClick={() => setIsMenuOpen(false)}
           >
             Projects
           </a>
           <a
             href="/contact"
-            className={`footer-link ${currentPath === "/contact" ? "active" : ""}`}
+            className={`footer-link ${
+              clientPath === "/contact" ? "active" : ""
+            }`}
             onClick={() => setIsMenuOpen(false)}
           >
             Contact
@@ -92,13 +116,24 @@ const Footer = ({ currentPath = "/" }: FooterProps): JSX.Element => {
       </div>
 
       <div className="footer-content desktop-menu">
-        <a href="/" className={`footer-link ${currentPath === "/" ? "active" : ""}`}>
+        <a
+          href="/"
+          className={`footer-link ${clientPath === "/" ? "active" : ""}`}
+        >
           Home
         </a>
-        <a href="/projects" className={`footer-link ${currentPath === "/projects" ? "active" : ""}`}>
+        <a
+          href="/projects"
+          className={`footer-link ${
+            clientPath === "/projects" ? "active" : ""
+          }`}
+        >
           Projects
         </a>
-        <a href="/contact" className={`footer-link ${currentPath === "/contact" ? "active" : ""}`}>
+        <a
+          href="/contact"
+          className={`footer-link ${clientPath === "/contact" ? "active" : ""}`}
+        >
           Contact
         </a>
         <a
