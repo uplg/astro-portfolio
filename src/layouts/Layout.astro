@@ -665,6 +665,10 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     height: 50px;
   }
 
+  .no-js .status-indicator {
+    display: none;
+  }
+
   @media screen and (max-width: 768px) {
     .burger-menu {
       display: flex;
@@ -676,10 +680,6 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
 
     .no-js .burger-label {
       display: flex;
-    }
-
-    .no-js .status-indicator {
-      display: none;
     }
 
     .footer-menu {
