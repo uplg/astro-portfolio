@@ -73,7 +73,7 @@ const Projects = (): JSX.Element => {
       description: "Crypto / news Bot on Telegram.",
       repository: "https://github.com/uplg/fujin",
       status: "archived",
-      url: "https://t.me/FujinCryptoBot",
+      url: "https://github.com/uplg/fujin",
       tags: ["NodeJS", "Telegram", "Bot", "OPML", "RSS"],
     },
     {
