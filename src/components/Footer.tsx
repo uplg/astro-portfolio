@@ -24,6 +24,13 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
     }
   };
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+    if (checkboxRef.current) {
+      checkboxRef.current.checked = false;
+    }
+  };
+
   const isActive = (href: string) => {
     const pathToCheck = clientPath || currentPath;
     return pathToCheck === href;
@@ -37,10 +44,7 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
             ? "/"
             : window.location.pathname.replace(/\/$/, "");
         setClientPath(path);
-        setIsMenuOpen(false);
-        if (checkboxRef.current) {
-          checkboxRef.current.checked = false;
-        }
+        closeMenu();
       }
     };
 
@@ -62,10 +66,7 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
         footerRef.current &&
         !footerRef.current.contains(event.target as Node)
       ) {
-        setIsMenuOpen(false);
-        if (checkboxRef.current) {
-          checkboxRef.current.checked = false;
-        }
+        closeMenu();
       }
     };
 
@@ -113,36 +114,21 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
             <a
               href="/"
               className={`footer-link ${isActive("/") ? "active" : ""}`}
-              onClick={() => {
-                setIsMenuOpen(false);
-                if (checkboxRef.current) {
-                  checkboxRef.current.checked = false;
-                }
-              }}
+              onClick={closeMenu}
             >
               Home
             </a>
             <a
               href="/projects"
               className={`footer-link ${isActive("/projects") ? "active" : ""}`}
-              onClick={() => {
-                setIsMenuOpen(false);
-                if (checkboxRef.current) {
-                  checkboxRef.current.checked = false;
-                }
-              }}
+              onClick={closeMenu}
             >
               Projects
             </a>
             <a
               href="/contact"
               className={`footer-link ${isActive("/contact") ? "active" : ""}`}
-              onClick={() => {
-                setIsMenuOpen(false);
-                if (checkboxRef.current) {
-                  checkboxRef.current.checked = false;
-                }
-              }}
+              onClick={closeMenu}
             >
               Contact
             </a>
@@ -151,12 +137,7 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
               target="_blank"
               rel="noopener noreferrer"
               className="footer-link"
-              onClick={() => {
-                setIsMenuOpen(false);
-                if (checkboxRef.current) {
-                  checkboxRef.current.checked = false;
-                }
-              }}
+              onClick={closeMenu}
             >
               <GithubLogo />
             </a>
@@ -164,10 +145,7 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
             <button
               onClick={() => {
                 randomizeColors();
-                setIsMenuOpen(false);
-                if (checkboxRef.current) {
-                  checkboxRef.current.checked = false;
-                }
+                closeMenu();
               }}
               className="color-randomizer"
               title="Randomize colors"
