@@ -82,7 +82,7 @@ const Projects = (): JSX.Element => {
       description: "An SDK to access Bricks.co.",
       repository: "https://github.com/uplg/bricks_sdk",
       status: "archived",
-      url: "https://www.npmjs.com/package/@uplg/bricks_sdk",
+      url: "https://www.npmjs.com/package/@m1m1s1ku/bricks_sdk",
       tags: ["NodeJS", "Typescript", "Zod", "Undici"],
     },
     {
@@ -91,7 +91,7 @@ const Projects = (): JSX.Element => {
       description: "An SDK to access MonPetitPlacement.",
       repository: "https://github.com/uplg/monpetitplacement_sdk",
       status: "archived",
-      url: "https://www.npmjs.com/package/@uplg/monpetitplacement_sdk",
+      url: "https://www.npmjs.com/package/@m1m1s1ku/monpetitplacement_sdk",
       tags: ["NodeJS", "Typescript", "Zod", "Undici"],
     },
     {
