@@ -29,6 +29,10 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
   <body class="no-js">
     <script is:inline>
       document.body.classList.remove('no-js');
+      
+      document.addEventListener('astro:page-load', () => {
+        document.body.classList.remove('no-js');
+      });
     </script>
     <BackgroundCanvas client:load transition:persist />
     <slot />
