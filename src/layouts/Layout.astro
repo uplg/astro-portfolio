@@ -9,6 +9,7 @@ export interface Props {
 }
 
 const { title, description } = Astro.props;
+const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replace(/\/$/, "");
 ---
 
 <!DOCTYPE html>
@@ -25,10 +26,13 @@ const { title, description } = Astro.props;
     <ClientRouter fallback="swap" />
     <script defer is:inline data-domain="uplg.xyz" src="https://plausible.uplg.xyz/js/script.js"></script>
   </head>
-  <body>
+  <body class="no-js">
+    <script is:inline>
+      document.body.classList.remove('no-js');
+    </script>
     <BackgroundCanvas client:load transition:persist />
     <slot />
-    <Footer client:load transition:persist />
+    <Footer client:load transition:persist currentPath={currentPath} />
   </body>
 </html>
 
@@ -509,6 +513,10 @@ const { title, description } = Astro.props;
     }
   }
 
+  .burger-toggle {
+    display: none;
+  }
+
   .burger-menu {
     display: none;
     flex-direction: column;
@@ -527,6 +535,25 @@ const { title, description } = Astro.props;
   }
 
   .burger-menu:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .burger-label {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+    position: relative;
+    z-index: 103;
+  }
+
+  .burger-label:hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
 
@@ -549,6 +576,22 @@ const { title, description } = Astro.props;
 
   .burger-line.open:nth-child(3) {
     transform: rotate(45deg) translate(-4px, -4px);
+  }
+
+  .burger-toggle:checked ~ .footer .burger-label .burger-line:nth-child(1) {
+    transform: rotate(-45deg) translate(-4px, 4px);
+  }
+
+  .burger-toggle:checked ~ .footer .burger-label .burger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .burger-toggle:checked ~ .footer .burger-label .burger-line:nth-child(3) {
+    transform: rotate(45deg) translate(-4px, -4px);
+  }
+
+  .burger-toggle:checked ~ .footer .footer-menu {
+    transform: translateY(0);
   }
 
   .footer-menu {
@@ -625,6 +668,18 @@ const { title, description } = Astro.props;
   @media screen and (max-width: 768px) {
     .burger-menu {
       display: flex;
+    }
+
+    .no-js .burger-menu {
+      display: none;
+    }
+
+    .no-js .burger-label {
+      display: flex;
+    }
+
+    .no-js .status-indicator {
+      display: none;
     }
 
     .footer-menu {

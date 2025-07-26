@@ -3,10 +3,15 @@ import { useState, useEffect, useRef } from "react";
 import { GithubLogo } from "./icons/Icons";
 import StatusIndicator from "./StatusIndicator";
 
-const Footer = (): JSX.Element => {
+interface FooterProps {
+  currentPath?: string;
+}
+
+const Footer = ({ currentPath }: FooterProps): JSX.Element => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [clientPath, setClientPath] = useState("/");
+  const [clientPath, setClientPath] = useState<string | undefined>(undefined);
   const footerRef = useRef<HTMLElement>(null);
+  const checkboxRef = useRef<HTMLInputElement>(null);
 
   const randomizeColors = () => {
     window.dispatchEvent(new CustomEvent("randomizeColors"));
@@ -14,13 +19,28 @@ const Footer = (): JSX.Element => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+    if (checkboxRef.current) {
+      checkboxRef.current.checked = !isMenuOpen;
+    }
+  };
+
+  const isActive = (href: string) => {
+    const pathToCheck = clientPath || currentPath;
+    return pathToCheck === href;
   };
 
   useEffect(() => {
     const updatePath = () => {
       if (typeof window !== "undefined") {
-        const path = window.location.pathname.replace(/\/$/, "") || "/";
+        const path =
+          window.location.pathname === "/"
+            ? "/"
+            : window.location.pathname.replace(/\/$/, "");
         setClientPath(path);
+        setIsMenuOpen(false);
+        if (checkboxRef.current) {
+          checkboxRef.current.checked = false;
+        }
       }
     };
 
@@ -43,50 +63,138 @@ const Footer = (): JSX.Element => {
         !footerRef.current.contains(event.target as Node)
       ) {
         setIsMenuOpen(false);
+        if (checkboxRef.current) {
+          checkboxRef.current.checked = false;
+        }
       }
     };
 
-    if (isMenuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMenuOpen]);
 
-  return (
-    <footer className="footer" ref={footerRef}>
-      <button className="burger-menu" onClick={toggleMenu} aria-label="Menu">
-        <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
-        <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
-        <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
-      </button>
+  useEffect(() => {
+    if (checkboxRef.current) {
+      checkboxRef.current.checked = isMenuOpen;
+    }
+  }, [isMenuOpen]);
 
-      <div className={`footer-menu ${isMenuOpen ? "open" : ""}`}>
-        <div className="footer-menu-content">
+  return (
+    <>
+      <input
+        type="checkbox"
+        id="burger-toggle"
+        className="burger-toggle"
+        ref={checkboxRef}
+      />
+
+      <footer className="footer" ref={footerRef}>
+        <button className="burger-menu" onClick={toggleMenu} aria-label="Menu">
+          <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
+          <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
+          <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
+        </button>
+
+        <label
+          htmlFor="burger-toggle"
+          className="burger-label"
+          aria-label="Menu"
+        >
+          <span className="burger-line"></span>
+          <span className="burger-line"></span>
+          <span className="burger-line"></span>
+        </label>
+
+        <div className={`footer-menu ${isMenuOpen ? "open" : ""}`}>
+          <div className="footer-menu-content">
+            <a
+              href="/"
+              className={`footer-link ${isActive("/") ? "active" : ""}`}
+              onClick={() => {
+                setIsMenuOpen(false);
+                if (checkboxRef.current) {
+                  checkboxRef.current.checked = false;
+                }
+              }}
+            >
+              Home
+            </a>
+            <a
+              href="/projects"
+              className={`footer-link ${isActive("/projects") ? "active" : ""}`}
+              onClick={() => {
+                setIsMenuOpen(false);
+                if (checkboxRef.current) {
+                  checkboxRef.current.checked = false;
+                }
+              }}
+            >
+              Projects
+            </a>
+            <a
+              href="/contact"
+              className={`footer-link ${isActive("/contact") ? "active" : ""}`}
+              onClick={() => {
+                setIsMenuOpen(false);
+                if (checkboxRef.current) {
+                  checkboxRef.current.checked = false;
+                }
+              }}
+            >
+              Contact
+            </a>
+            <a
+              href="https://github.com/uplg"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+              onClick={() => {
+                setIsMenuOpen(false);
+                if (checkboxRef.current) {
+                  checkboxRef.current.checked = false;
+                }
+              }}
+            >
+              <GithubLogo />
+            </a>
+
+            <button
+              onClick={() => {
+                randomizeColors();
+                setIsMenuOpen(false);
+                if (checkboxRef.current) {
+                  checkboxRef.current.checked = false;
+                }
+              }}
+              className="color-randomizer"
+              title="Randomize colors"
+            >
+              🎨
+            </button>
+
+            <StatusIndicator />
+          </div>
+        </div>
+
+        <div className="footer-content desktop-menu">
           <a
             href="/"
-            className={`footer-link ${clientPath === "/" ? "active" : ""}`}
-            onClick={() => setIsMenuOpen(false)}
+            className={`footer-link ${isActive("/") ? "active" : ""}`}
           >
             Home
           </a>
           <a
             href="/projects"
-            className={`footer-link ${
-              clientPath === "/projects" ? "active" : ""
-            }`}
-            onClick={() => setIsMenuOpen(false)}
+            className={`footer-link ${isActive("/projects") ? "active" : ""}`}
           >
             Projects
           </a>
           <a
             href="/contact"
-            className={`footer-link ${
-              clientPath === "/contact" ? "active" : ""
-            }`}
-            onClick={() => setIsMenuOpen(false)}
+            className={`footer-link ${isActive("/contact") ? "active" : ""}`}
           >
             Contact
           </a>
@@ -95,16 +203,12 @@ const Footer = (): JSX.Element => {
             target="_blank"
             rel="noopener noreferrer"
             className="footer-link"
-            onClick={() => setIsMenuOpen(false)}
           >
             <GithubLogo />
           </a>
 
           <button
-            onClick={() => {
-              randomizeColors();
-              setIsMenuOpen(false);
-            }}
+            onClick={randomizeColors}
             className="color-randomizer"
             title="Randomize colors"
           >
@@ -113,49 +217,8 @@ const Footer = (): JSX.Element => {
 
           <StatusIndicator />
         </div>
-      </div>
-
-      <div className="footer-content desktop-menu">
-        <a
-          href="/"
-          className={`footer-link ${clientPath === "/" ? "active" : ""}`}
-        >
-          Home
-        </a>
-        <a
-          href="/projects"
-          className={`footer-link ${
-            clientPath === "/projects" ? "active" : ""
-          }`}
-        >
-          Projects
-        </a>
-        <a
-          href="/contact"
-          className={`footer-link ${clientPath === "/contact" ? "active" : ""}`}
-        >
-          Contact
-        </a>
-        <a
-          href="https://github.com/uplg"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="footer-link"
-        >
-          <GithubLogo />
-        </a>
-
-        <button
-          onClick={randomizeColors}
-          className="color-randomizer"
-          title="Randomize colors"
-        >
-          🎨
-        </button>
-
-        <StatusIndicator />
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 };
 
