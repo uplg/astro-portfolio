@@ -34,6 +34,15 @@ const Projects = (): JSX.Element => {
       tags: ["MLX", "Whisper", "LLama", "FastAPI", "Typescript", "Python"],
     },
     {
+      name: "Portfolio",
+      slug: "portfolio",
+      description: "This website.",
+      repository: "https://github.com/uplg/astro-portfolio",
+      status: "published",
+      url: "https://uplg.xyz",
+      tags: ["Astro", "Typescript", "React", "no-js handling"],
+    },
+    {
       name: "Thiweb",
       slug: "thiweb",
       description: "Community.",
