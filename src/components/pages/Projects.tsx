@@ -31,7 +31,7 @@ const Projects = (): JSX.Element => {
       repository: "https://github.com/uplg/video-summarize",
       status: "published",
       url: "https://github.com/uplg/video-summarize",
-      tags: ["MLX", "Whisper", "LLama", "FastAPI", "Typescript", "Python"],
+      tags: ["MLX", "Whisper", "Gemma", "FastAPI", "Typescript", "Python"],
     },
     {
       name: "Portfolio",
