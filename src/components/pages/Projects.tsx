@@ -17,8 +17,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Cat API",
       slug: "cat-api",
-      description:
-        "Control your Tuya-based cat (IoT) devices locally using an API.",
+      description: "Control your Tuya-based cat (IoT) devices locally.",
       status: "published",
       repository: "https://github.com/uplg/cat-api",
       url: "https://github.com/uplg/cat-api",
