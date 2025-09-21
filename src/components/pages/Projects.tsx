@@ -15,6 +15,16 @@ interface Project {
 const Projects = (): JSX.Element => {
   const projects: Project[] = [
     {
+      name: "Cat API",
+      slug: "cat-api",
+      description:
+        "Control your Tuya-based cat (IoT) devices locally using an API.",
+      status: "published",
+      repository: "https://github.com/uplg/cat-api",
+      url: "https://github.com/uplg/cat-api",
+      tags: ["Hono", "Tuya local API", "Typescript"],
+    },
+    {
       name: "Cheno",
       slug: "cheno",
       description: "Iron artist.",
