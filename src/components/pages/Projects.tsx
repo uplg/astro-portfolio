@@ -21,7 +21,7 @@ const Projects = (): JSX.Element => {
       status: "published",
       repository: "https://github.com/uplg/cat-api",
       url: "https://github.com/uplg/cat-api",
-      tags: ["Hono", "Tuya local API", "Typescript"],
+      tags: ["ElysiaJS", "Tuya local API", "Typescript"],
     },
     {
       name: "Cheno",
