@@ -17,7 +17,7 @@ const Projects = (): JSX.Element => {
     {
       name: "SummarySwift",
       slug: "summary-swift",
-      description: "Summarize videos using AI.",
+      description: "Summarize videos locally with AI on a native app!",
       status: "published",
       repository: "https://github.com/uplg/summary-swift",
       url: "https://github.com/uplg/summary-swift",
@@ -49,7 +49,7 @@ const Projects = (): JSX.Element => {
       repository: "https://github.com/uplg/video-summarize",
       status: "published",
       url: "https://github.com/uplg/video-summarize",
-      tags: ["MLX", "Whisper", "Gemma", "FastAPI", "Typescript", "Python"],
+      tags: ["MLX", "Whisper", "Gemma", "FastAPI", "React", "Python"],
     },
     {
       name: "Portfolio",
