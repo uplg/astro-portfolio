@@ -15,6 +15,15 @@ interface Project {
 const Projects = (): JSX.Element => {
   const projects: Project[] = [
     {
+      name: "SummarySwift",
+      slug: "summary-swift",
+      description: "Summarize videos using AI.",
+      status: "published",
+      repository: "https://github.com/uplg/summary-swift",
+      url: "https://github.com/uplg/summary-swift",
+      tags: ["MLX", "Whisper", "Gemma 3n", "SwiftUI"],
+    },
+    {
       name: "Cat API",
       slug: "cat-api",
       description: "Control your Tuya-based cat (IoT) devices locally.",
