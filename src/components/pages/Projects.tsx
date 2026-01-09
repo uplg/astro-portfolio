@@ -14,6 +14,24 @@ interface Project {
 
 const Projects = (): JSX.Element => {
   const projects: Project[] = [
+        {
+      name: "Home monitor",
+      slug: "home-monitor",
+      description: "Control your Tuya-based cat and Hue BLE lamps (IoT) devices locally.",
+      status: "published",
+      repository: "https://github.com/uplg/home-monitor",
+      url: "https://github.com/uplg/home-monitor",
+      tags: ["ElysiaJS", "React", "Tuya local API", "BLE", "Typescript"],
+    },
+    {
+      name: "Teeter",
+      slug: "teeter",
+      description: "Accelerometer-based maze app for Android.",
+      status: "published",
+      repository: "https://github.com/uplg/teeter",
+      url: "https://github.com/uplg/teeter",
+      tags: ["Kotlin"],
+    },
     {
       name: "SummarySwift",
       slug: "summary-swift",
@@ -23,15 +41,7 @@ const Projects = (): JSX.Element => {
       url: "https://github.com/uplg/summary-swift",
       tags: ["MLX", "Whisper", "Gemma 3n", "SwiftUI"],
     },
-    {
-      name: "Cat API",
-      slug: "cat-api",
-      description: "Control your Tuya-based cat (IoT) devices locally.",
-      status: "published",
-      repository: "https://github.com/uplg/cat-api",
-      url: "https://github.com/uplg/cat-api",
-      tags: ["ElysiaJS", "Tuya local API", "Typescript"],
-    },
+
     {
       name: "Cheno",
       slug: "cheno",
