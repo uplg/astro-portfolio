@@ -17,11 +17,11 @@ const Projects = (): JSX.Element => {
         {
       name: "Home monitor",
       slug: "home-monitor",
-      description: "Control your Tuya-based cat and Hue BLE lamps (IoT) devices locally.",
+      description: "Control your Tuya cat and Hue BLE devices locally.",
       status: "published",
       repository: "https://github.com/uplg/home-monitor",
       url: "https://github.com/uplg/home-monitor",
-      tags: ["ElysiaJS", "React", "Tuya local API", "BLE", "Typescript"],
+      tags: ["ElysiaJS", "React", "Tuya local API", "BLE", "IoT", "Typescript"],
     },
     {
       name: "Teeter",

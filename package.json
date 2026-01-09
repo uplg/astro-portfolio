@@ -9,16 +9,16 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/react": "^4.3.0",
-    "astro": "^5.12.3",
+    "@astrojs/react": "^4.4.2",
+    "astro": "^5.16.7",
     "hsl-to-hex": "^1.0.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "simplex-noise": "^4.0.3"
   },
   "devDependencies": {
     "@types/hsl-to-hex": "^1.0.2",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6"
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3"
   }
 }
