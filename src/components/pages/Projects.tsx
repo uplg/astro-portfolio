@@ -14,7 +14,16 @@ interface Project {
 
 const Projects = (): JSX.Element => {
   const projects: Project[] = [
-        {
+    {
+      name: "Asahi Map",
+      slug: "asahi-map",
+      description: "Easy and minimal Option key special character mappings on Asahi Linux!",
+      status: "published",
+      repository: "https://github.com/uplg/asahi-map",
+      url: "https://github.com/uplg/asahi-map",
+      tags: ["Go", "Keyboard mappings", "Asahi Linux"],
+    },
+    {
       name: "Home monitor",
       slug: "home-monitor",
       description: "Control your Tuya cat and Hue BLE devices locally.",
