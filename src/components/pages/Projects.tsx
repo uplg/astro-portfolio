@@ -239,7 +239,7 @@ const Projects = (): JSX.Element => {
                 <div className="repo-info">
                   {project.repository && !project.private && (
                     <>
-                      {stars[project.slug] !== undefined && stars[project.slug] !== null && (
+                      {stars[project.slug] !== undefined && stars[project.slug] !== null && stars[project.slug]! > 0 && (
                         <span className="stars-count">
                           <StarIcon />
                           {stars[project.slug]}
