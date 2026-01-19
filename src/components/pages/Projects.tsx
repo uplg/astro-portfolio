@@ -1,5 +1,5 @@
-import { type JSX } from "react";
-import { GithubLogo } from "../icons/Icons";
+import { type JSX, useState, useEffect } from "react";
+import { GithubLogo, StarIcon } from "../icons/Icons";
 
 interface Project {
   name: string;
@@ -12,7 +12,16 @@ interface Project {
   tags: string[];
 }
 
+const getRepoInfo = (url: string): { owner: string; repo: string } | null => {
+  const match = url.match(/github\.com\/([^/]+)\/([^/]+)/);
+  if (match) {
+    return { owner: match[1], repo: match[2] };
+  }
+  return null;
+};
+
 const Projects = (): JSX.Element => {
+  const [stars, setStars] = useState<Record<string, number | null>>({});
   const projects: Project[] = [
     {
       name: "Asahi Map",
@@ -163,6 +172,42 @@ const Projects = (): JSX.Element => {
     },
   ];
 
+  useEffect(() => {
+    const fetchStars = async () => {
+      const publicRepos = projects.filter(
+        (p) => p.repository && !p.private
+      );
+
+      const starsData: Record<string, number | null> = {};
+
+      await Promise.all(
+        publicRepos.map(async (project) => {
+          const repoInfo = getRepoInfo(project.repository!);
+          // @tool: debug when gh rate-limit
+          // starsData[project.slug] = 1;
+
+          if (!repoInfo) return;
+
+          try {
+            const response = await fetch(
+              `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}`
+            );
+            if (response.ok) {
+              const data = await response.json();
+              starsData[project.slug] = data.stargazers_count;
+            }
+          } catch {
+            // Silently fail for individual repos
+          }
+        })
+      );
+
+      setStars(starsData);
+    };
+
+    fetchStars();
+  }, []);
+
   return (
     <div id="page" className="page" role="main">
       <div className="content-section-header">
@@ -191,34 +236,44 @@ const Projects = (): JSX.Element => {
                       project.status.substring(1, project.status.length)}
                   </span>
                 )}
-                {project.repository && !project.private && (
-                  <a
-                    href={project.repository}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <GithubLogo />
-                  </a>
-                )}
-                {project.private && (
-                  <span className="private" title="Private repository">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-lock-icon lucide-lock"
-                    >
-                      <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                    </svg>
-                  </span>
-                )}
+                <div className="repo-info">
+                  {project.repository && !project.private && (
+                    <>
+                      {stars[project.slug] !== undefined && stars[project.slug] !== null && (
+                        <span className="stars-count">
+                          <StarIcon />
+                          {stars[project.slug]}
+                        </span>
+                      )}
+                      <a
+                        href={project.repository}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <GithubLogo />
+                      </a>
+                    </>
+                  )}
+                  {project.private && (
+                    <span className="private" title="Private repository">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-lock-icon lucide-lock"
+                      >
+                        <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                      </svg>
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
