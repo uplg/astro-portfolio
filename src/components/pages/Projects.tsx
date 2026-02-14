@@ -24,6 +24,16 @@ const Projects = (): JSX.Element => {
   const [stars, setStars] = useState<Record<string, number | null>>({});
   const projects: Project[] = [
     {
+      name: "Art minéral",
+      slug: "art-mineral",
+      description: "E-commerce website for minerals and custom objects.",
+      status: "published",
+      private: true,
+      repository: "https://github.com/uplg/art-mineral",
+      url: "https://artmineral.fr",
+      tags: ["Astro", "Strapi", "E-commerce", "Typescript"],
+    },
+    {
       name: "Asahi Map",
       slug: "asahi-map",
       description: "Easy and minimal Option key special character mappings on Asahi Linux!",
