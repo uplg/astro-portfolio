@@ -7,11 +7,11 @@
 
 | Command             | Action                                                     |
 | :------------------ | :--------------------------------------------------------- |
-| `npm install`       | Installs the dependencies                                  |
-| `npm run dev`       | Starts the local development server on `localhost:4321`    |
-| `npm run build`     | Builds the production site in `./dist/`                    |
-| `npm run preview`   | Locally preview your build before deploying                |
-| `npm run astro ...` | Execute Astro CLI commands like `astro add`, `astro check` |
+| `bun install`       | Installs the dependencies                                  |
+| `bun run dev`       | Starts the local development server on `localhost:4321`    |
+| `bun run build`     | Builds the production site in `./dist/`                    |
+| `bun run preview`   | Locally preview your build before deploying                |
+| `bun run astro ...` | Execute Astro CLI commands like `astro add`, `astro check` |
 
 ## 🔧 Used technologies
 
