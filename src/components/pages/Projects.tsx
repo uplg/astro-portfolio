@@ -24,6 +24,16 @@ const Projects = (): JSX.Element => {
   const [stars, setStars] = useState<Record<string, number | null>>({});
   const projects: Project[] = [
     {
+      name: "Courant constructif",
+      slug: "courant-constructif",
+      description: "A world within our reach.",
+      status: "published",
+      private: true,
+      repository: "https://github.com/uplg/courant-constructif",
+      url: "https://courantconstructif.com",
+      tags: ["Astro", "WP Headless", "Typescript", "O2Switch"],
+    },
+    {
       name: "Art minéral",
       slug: "art-mineral",
       description: "E-commerce website for minerals and custom objects.",
