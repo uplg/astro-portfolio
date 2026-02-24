@@ -24,6 +24,16 @@ const Projects = (): JSX.Element => {
   const [stars, setStars] = useState<Record<string, number | null>>({});
   const projects: Project[] = [
     {
+      name: "Mula(n)",
+      slug: "mulan",
+      description: "HeartMuLa on Apple silicon ",
+      status: "published",
+      private: false,
+      repository: "https://github.com/uplg/mulan",
+      url: "https://github.com/uplg/mulan",
+      tags: ["Python", "MLX", "HeartMuLa", "FastAPI", "React", "Typescript"],
+    },
+    {
       name: "Art minéral",
       slug: "art-mineral",
       description: "E-commerce website for minerals and custom objects.",
@@ -33,16 +43,6 @@ const Projects = (): JSX.Element => {
       url: "https://artmineral.fr",
       tags: ["Astro", "Strapi", "E-commerce", "Typescript"],
     },
-    // {
-    //   name: "Courant constructif",
-    //   slug: "courant-constructif",
-    //   description: "A world within our reach.",
-    //   status: "published",
-    //   private: true,
-    //   repository: "https://github.com/uplg/courant-constructif",
-    //   url: "https://courantconstructif.com",
-    //   tags: ["Astro", "WP Headless", "Typescript", "O2Switch"],
-    // },
     {
       name: "Asahi Map",
       slug: "asahi-map",
