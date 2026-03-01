@@ -80,6 +80,15 @@ const Projects = (): JSX.Element => {
       tags: ["Kotlin"],
     },
     {
+      name: "Backup tool",
+      slug: "backup-tool",
+      description: "Multi-site, simple, backup in NodeJS.",
+      repository: "https://github.com/uplg/backup-tool",
+      status: "published",
+      url: "https://github.com/uplg/backup-tool",
+      tags: ["Gzip", "MySQL", "MySQLDump", "Docker", "SFTP", "FTP(ES)"],
+    },
+    {
       name: "SummarySwift",
       slug: "summary-swift",
       description: "Summarize videos locally with AI on a native app!",
@@ -125,15 +134,6 @@ const Projects = (): JSX.Element => {
       status: "published",
       url: "https://forum.thiweb.com",
       tags: ["PhpBB", "Typescript", "NodeJS", "AWS", "WebExtension"],
-    },
-    {
-      name: "Backup tool",
-      slug: "backup-tool",
-      description: "Multi-site, simple, backup in NodeJS.",
-      repository: "https://github.com/uplg/backup-tool",
-      status: "published",
-      url: "https://github.com/uplg/backup-tool",
-      tags: ["Gzip", "MySQL", "MySQLDump", "SFTP", "FTP(ES)"],
     },
     {
       name: "Google Authenticator Export",
