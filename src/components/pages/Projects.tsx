@@ -24,6 +24,15 @@ const Projects = (): JSX.Element => {
   const [stars, setStars] = useState<Record<string, number | null>>({});
   const projects: Project[] = [
     {
+      name: "Dobrunia Design",
+      slug: "dobrunia",
+      description: "Custom objects & interior design.",
+      status: "published",
+      repository: "https://github.com/uplg/dobrunia-design",
+      url: "https://www.dobruniadesign.com",
+      tags: ["Astro", "GraphQL", "Wordpress"],
+    },
+    {
       name: "Mula(n)",
       slug: "mulan",
       description: "HeartMuLa on Apple silicon ",
@@ -117,16 +126,6 @@ const Projects = (): JSX.Element => {
       url: "https://forum.thiweb.com",
       tags: ["PhpBB", "Typescript", "NodeJS", "AWS", "WebExtension"],
     },
-    {
-      name: "Dobrunia Design",
-      slug: "dobrunia",
-      description: "Custom objects & interior design.",
-      status: "published",
-      repository: "https://github.com/uplg/dobrunia-design",
-      url: "https://www.dobruniadesign.com",
-      tags: ["Lit", "GraphQL", "Wordpress"],
-    },
-
     {
       name: "Backup tool",
       slug: "backup-tool",
