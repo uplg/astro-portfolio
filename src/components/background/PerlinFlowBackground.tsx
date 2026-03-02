@@ -22,8 +22,7 @@ function createCanvas(width: number, height: number): HTMLCanvasElement {
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
-  canvas.style.cssText =
-    "position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;";
+  canvas.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;";
   return canvas;
 }
 
@@ -79,7 +78,10 @@ const PerlinFlowBackground = (): JSX.Element => {
           const canvas = replaceCanvas();
           const webgpu = new WebGPUFlowField();
           if (await webgpu.init(canvas, { ...config, particleCount: 600 })) {
-            if (destroyed) { webgpu.destroy(); return; }
+            if (destroyed) {
+              webgpu.destroy();
+              return;
+            }
             rendererRef.current = webgpu;
             rendererTypeRef.current = "webgpu";
             console.debug("[Background] Using WebGPU renderer");
@@ -98,7 +100,10 @@ const PerlinFlowBackground = (): JSX.Element => {
           const canvas = replaceCanvas();
           const webgl2 = new WebGL2FlowField();
           if (await webgl2.init(canvas, { ...config, particleCount: 450 })) {
-            if (destroyed) { webgl2.destroy(); return; }
+            if (destroyed) {
+              webgl2.destroy();
+              return;
+            }
             rendererRef.current = webgl2;
             rendererTypeRef.current = "webgl2";
             console.debug("[Background] Using WebGL2 renderer");
@@ -116,7 +121,10 @@ const PerlinFlowBackground = (): JSX.Element => {
         const canvas = replaceCanvas();
         const canvas2d = new Canvas2DFlowField();
         if (await canvas2d.init(canvas, config)) {
-          if (destroyed) { canvas2d.destroy(); return; }
+          if (destroyed) {
+            canvas2d.destroy();
+            return;
+          }
           rendererRef.current = canvas2d;
           rendererTypeRef.current = "canvas2d";
           console.debug("[Background] Using Canvas 2D renderer");
@@ -141,7 +149,13 @@ const PerlinFlowBackground = (): JSX.Element => {
 
     const darkMQ = window.matchMedia("(prefers-color-scheme: dark)");
     const handleSystemTheme = () => {
-      const saved = (() => { try { return localStorage.getItem("theme"); } catch { return null; } })();
+      const saved = (() => {
+        try {
+          return localStorage.getItem("theme");
+        } catch {
+          return null;
+        }
+      })();
       if (!saved || (saved !== "dark" && saved !== "light")) {
         document.documentElement.setAttribute("data-theme", darkMQ.matches ? "dark" : "light");
         rendererRef.current?.updateTheme(darkMQ.matches);
@@ -212,10 +226,7 @@ const PerlinFlowBackground = (): JSX.Element => {
         clearTimeout(resizeTimeoutRef.current);
       }
       window.removeEventListener("mousemove", handleMouseMove);
-      document.documentElement.removeEventListener(
-        "mouseleave",
-        handleMouseLeave,
-      );
+      document.documentElement.removeEventListener("mouseleave", handleMouseLeave);
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchstart", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);

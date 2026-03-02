@@ -193,9 +193,7 @@ const Projects = (): JSX.Element => {
 
   useEffect(() => {
     const fetchStars = async () => {
-      const publicRepos = projects.filter(
-        (p) => p.repository && !p.private
-      );
+      const publicRepos = projects.filter((p) => p.repository && !p.private);
 
       const starsData: Record<string, number | null> = {};
 
@@ -209,7 +207,7 @@ const Projects = (): JSX.Element => {
 
           try {
             const response = await fetch(
-              `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}`
+              `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}`,
             );
             if (response.ok) {
               const data = await response.json();
@@ -218,7 +216,7 @@ const Projects = (): JSX.Element => {
           } catch {
             // Silently fail for individual repos
           }
-        })
+        }),
       );
 
       setStars(starsData);
@@ -258,17 +256,15 @@ const Projects = (): JSX.Element => {
                 <div className="repo-info">
                   {project.repository && !project.private && (
                     <>
-                      {stars[project.slug] !== undefined && stars[project.slug] !== null && stars[project.slug]! > 0 && (
-                        <span className="stars-count">
-                          <StarIcon />
-                          {stars[project.slug]}
-                        </span>
-                      )}
-                      <a
-                        href={project.repository}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      {stars[project.slug] !== undefined &&
+                        stars[project.slug] !== null &&
+                        stars[project.slug]! > 0 && (
+                          <span className="stars-count">
+                            <StarIcon />
+                            {stars[project.slug]}
+                          </span>
+                        )}
+                      <a href={project.repository} target="_blank" rel="noopener noreferrer">
                         <GithubLogo />
                       </a>
                     </>

@@ -23,12 +23,7 @@ function noise2D(x: number, y: number): number {
   const ux = fx * fx * (3 - 2 * fx);
   const uy = fy * fy * (3 - 2 * fy);
 
-  return (
-    n00 +
-    (n10 - n00) * ux +
-    (n01 - n00) * uy +
-    (n00 - n10 - n01 + n11) * ux * uy
-  );
+  return n00 + (n10 - n00) * ux + (n01 - n00) * uy + (n00 - n10 - n01 + n11) * ux * uy;
 }
 
 interface Particle {
@@ -50,10 +45,7 @@ export class Canvas2DFlowField implements FlowFieldRenderer {
   private mouseX = -1000;
   private mouseY = -1000;
 
-  async init(
-    canvas: HTMLCanvasElement,
-    config: FlowFieldConfig,
-  ): Promise<boolean> {
+  async init(canvas: HTMLCanvasElement, config: FlowFieldConfig): Promise<boolean> {
     const ctx = canvas.getContext("2d");
     if (!ctx) return false;
 
@@ -107,17 +99,13 @@ export class Canvas2DFlowField implements FlowFieldRenderer {
         ctx.fillRect(0, 0, width, height);
 
         // Particle color - monochrome, semi-transparent for elegance
-        ctx.fillStyle = dark
-          ? "rgba(255, 255, 255, 0.6)"
-          : "rgba(0, 0, 0, 0.7)";
+        ctx.fillStyle = dark ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.7)";
 
         const path = new Path2D();
 
         for (const p of this.particles) {
           // Flow field angle from noise
-          const angle =
-            noise2D(p.x * noiseScale, p.y * noiseScale + timeOffset) *
-            angleMult;
+          const angle = noise2D(p.x * noiseScale, p.y * noiseScale + timeOffset) * angleMult;
 
           // Apply flow force
           p.vx += force * Math.cos(angle);
@@ -145,13 +133,7 @@ export class Canvas2DFlowField implements FlowFieldRenderer {
           p.age++;
 
           // Respawn if out of bounds or too old
-          if (
-            p.x < 0 ||
-            p.x > width ||
-            p.y < 0 ||
-            p.y > height ||
-            p.age > maxAge
-          ) {
+          if (p.x < 0 || p.x > width || p.y < 0 || p.y > height || p.age > maxAge) {
             p.x = Math.random() * width;
             p.y = Math.random() * height;
             p.vx = 0;

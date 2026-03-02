@@ -5,18 +5,14 @@ const Home = (): JSX.Element => {
   return (
     <div id="page" className="page home" role="main">
       <section className="hero">
-        <h1>
-          Passionately building and creating, bringing the future to the
-          present.
-        </h1>
+        <h1>Passionately building and creating, bringing the future to the present.</h1>
       </section>
 
       <section className="areas">
         <section className="service">
           <h2>Development</h2>
           <p>
-            We utilise insights and expertise gained from managing multiple
-            successful projects.
+            We utilise insights and expertise gained from managing multiple successful projects.
           </p>
           <ul>
             <li>Custom solutions using state of the art technologies</li>
@@ -33,8 +29,8 @@ const Home = (): JSX.Element => {
         <section className="service">
           <h2>Networking</h2>
           <p>
-            We have enabled the growth of large successful communities,
-            deploying infrastructure at scale.
+            We have enabled the growth of large successful communities, deploying infrastructure at
+            scale.
           </p>
           <ul>
             <li>On-premise private networks</li>

@@ -66,24 +66,16 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
   const checkboxRef = useRef<HTMLInputElement>(null);
 
   const cycleTheme = () => {
-    const order: Array<"system" | "dark" | "light"> = [
-      "system",
-      "dark",
-      "light",
-    ];
+    const order: Array<"system" | "dark" | "light"> = ["system", "dark", "light"];
     const next = order[(order.indexOf(theme) + 1) % order.length];
     setTheme(next);
     saveTheme(next);
 
     if (next === "system") {
       // Resolve system preference and apply immediately
-      const isDark = window.matchMedia(
-        "(prefers-color-scheme: dark)",
-      ).matches;
+      const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
-      window.dispatchEvent(
-        new CustomEvent("themeChange", { detail: { dark: isDark } }),
-      );
+      window.dispatchEvent(new CustomEvent("themeChange", { detail: { dark: isDark } }));
     } else {
       document.documentElement.setAttribute("data-theme", next);
       window.dispatchEvent(
@@ -95,22 +87,15 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
   };
 
   const cycleRenderer = () => {
-    const next =
-      RENDERER_ORDER[(RENDERER_ORDER.indexOf(renderer) + 1) % RENDERER_ORDER.length];
+    const next = RENDERER_ORDER[(RENDERER_ORDER.indexOf(renderer) + 1) % RENDERER_ORDER.length];
     setRenderer(next);
     saveRenderer(next);
-    window.dispatchEvent(
-      new CustomEvent("forceRenderer", { detail: { renderer: next } }),
-    );
+    window.dispatchEvent(new CustomEvent("forceRenderer", { detail: { renderer: next } }));
   };
 
   const themeIcon = theme === "system" ? "◐" : theme === "dark" ? "●" : "○";
   const themeTitle =
-    theme === "system"
-      ? "Theme: System"
-      : theme === "dark"
-        ? "Theme: Dark"
-        : "Theme: Light";
+    theme === "system" ? "Theme: System" : theme === "dark" ? "Theme: Dark" : "Theme: Light";
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -135,9 +120,7 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
     const updatePath = () => {
       if (typeof window !== "undefined") {
         const path =
-          window.location.pathname === "/"
-            ? "/"
-            : window.location.pathname.replace(/\/$/, "");
+          window.location.pathname === "/" ? "/" : window.location.pathname.replace(/\/$/, "");
         setClientPath(path);
         closeMenu();
       }
@@ -157,10 +140,7 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        footerRef.current &&
-        !footerRef.current.contains(event.target as Node)
-      ) {
+      if (footerRef.current && !footerRef.current.contains(event.target as Node)) {
         closeMenu();
       }
     };
@@ -180,12 +160,7 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
 
   return (
     <>
-      <input
-        type="checkbox"
-        id="burger-toggle"
-        className="burger-toggle"
-        ref={checkboxRef}
-      />
+      <input type="checkbox" id="burger-toggle" className="burger-toggle" ref={checkboxRef} />
 
       <footer className="footer" ref={footerRef}>
         <button className="burger-menu" onClick={toggleMenu} aria-label="Menu">
@@ -194,11 +169,7 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
           <span className={`burger-line ${isMenuOpen ? "open" : ""}`}></span>
         </button>
 
-        <label
-          htmlFor="burger-toggle"
-          className="burger-label"
-          aria-label="Menu"
-        >
+        <label htmlFor="burger-toggle" className="burger-label" aria-label="Menu">
           <span className="burger-line"></span>
           <span className="burger-line"></span>
           <span className="burger-line"></span>
@@ -238,11 +209,7 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
             </a>
 
             <div className="footer-controls">
-              <button
-                onClick={cycleTheme}
-                className="footer-btn"
-                title={themeTitle}
-              >
+              <button onClick={cycleTheme} className="footer-btn" title={themeTitle}>
                 {themeIcon}
               </button>
               <button
@@ -259,22 +226,13 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
         </div>
 
         <div className="footer-content desktop-menu">
-          <a
-            href="/"
-            className={`footer-link ${isActive("/") ? "active" : ""}`}
-          >
+          <a href="/" className={`footer-link ${isActive("/") ? "active" : ""}`}>
             Home
           </a>
-          <a
-            href="/projects"
-            className={`footer-link ${isActive("/projects") ? "active" : ""}`}
-          >
+          <a href="/projects" className={`footer-link ${isActive("/projects") ? "active" : ""}`}>
             Projects
           </a>
-          <a
-            href="/contact"
-            className={`footer-link ${isActive("/contact") ? "active" : ""}`}
-          >
+          <a href="/contact" className={`footer-link ${isActive("/contact") ? "active" : ""}`}>
             Contact
           </a>
           <a
@@ -288,11 +246,7 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
 
           <StatusIndicator />
 
-          <button
-            onClick={cycleTheme}
-            className="footer-btn"
-            title={themeTitle}
-          >
+          <button onClick={cycleTheme} className="footer-btn" title={themeTitle}>
             {themeIcon}
           </button>
           <button

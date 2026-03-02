@@ -99,13 +99,7 @@ const Status = (): JSX.Element => {
   const allUp = services.length > 0 && services.every((s) => s.status === "up");
   const anyDown = services.some((s) => s.status === "down");
 
-  const overallColor = loading
-    ? "#6b7280"
-    : allUp
-      ? "#10b981"
-      : anyDown
-        ? "#ef4444"
-        : "#f59e0b";
+  const overallColor = loading ? "#6b7280" : allUp ? "#10b981" : anyDown ? "#ef4444" : "#f59e0b";
 
   const overallText = loading
     ? "Checking..."
@@ -122,10 +116,7 @@ const Status = (): JSX.Element => {
       </section>
 
       <div className="status-overview" style={{ borderColor: overallColor }}>
-        <div
-          className="status-overview-dot"
-          style={{ backgroundColor: overallColor }}
-        />
+        <div className="status-overview-dot" style={{ backgroundColor: overallColor }} />
         <span className="status-overview-text">{overallText}</span>
       </div>
 
@@ -158,9 +149,7 @@ const Status = (): JSX.Element => {
                   <span className="status-card-name">{s.name}</span>
                 </div>
                 <div className="status-card-meta">
-                  {s.ping !== null && (
-                    <span className="status-card-ping">{s.ping}ms</span>
-                  )}
+                  {s.ping !== null && <span className="status-card-ping">{s.ping}ms</span>}
                   {s.uptime24h !== null && (
                     <span className="status-card-uptime">
                       {s.uptime24h}% <span className="status-card-uptime-label">24h</span>
@@ -175,11 +164,7 @@ const Status = (): JSX.Element => {
         <p className="status-footer-note">
           Last updated: {lastUpdated.toLocaleTimeString()}
           {" · "}
-          <a
-            href="https://status.uplg.xyz/status/uplg"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://status.uplg.xyz/status/uplg" target="_blank" rel="noopener noreferrer">
             Uptime Kuma
           </a>
         </p>

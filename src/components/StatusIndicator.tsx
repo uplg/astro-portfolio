@@ -13,26 +13,20 @@ interface StatusResponse {
 }
 
 const StatusIndicator = (): JSX.Element => {
-  const [status, setStatus] = useState<"operational" | "degraded" | "loading">(
-    "loading"
-  );
+  const [status, setStatus] = useState<"operational" | "degraded" | "loading">("loading");
 
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const response = await fetch(
-          "https://status.uplg.xyz/api/status-page/heartbeat/uplg"
-        );
+        const response = await fetch("https://status.uplg.xyz/api/status-page/heartbeat/uplg");
         const data: StatusResponse = await response.json();
 
         // Check if any service is down (status 0) or in maintenance (status 3)
-        const isAnyServiceDown = Object.values(data.heartbeatList).some(
-          (heartbeats) => {
-            if (heartbeats.length === 0) return true;
-            const latestHeartbeat = heartbeats[heartbeats.length - 1];
-            return latestHeartbeat.status === 0 || latestHeartbeat.status === 3;
-          }
-        );
+        const isAnyServiceDown = Object.values(data.heartbeatList).some((heartbeats) => {
+          if (heartbeats.length === 0) return true;
+          const latestHeartbeat = heartbeats[heartbeats.length - 1];
+          return latestHeartbeat.status === 0 || latestHeartbeat.status === 3;
+        });
 
         setStatus(isAnyServiceDown ? "degraded" : "operational");
       } catch (error) {
@@ -71,14 +65,8 @@ const StatusIndicator = (): JSX.Element => {
 
   return (
     <div className="status-indicator">
-      <div
-        className="status-pulse"
-        style={{ backgroundColor: getStatusColor() }}
-      />
-      <a
-        href="/status"
-        className="footer-link"
-      >
+      <div className="status-pulse" style={{ backgroundColor: getStatusColor() }} />
+      <a href="/status" className="footer-link">
         <span className="status-text">{getStatusText()}</span>
       </a>
     </div>

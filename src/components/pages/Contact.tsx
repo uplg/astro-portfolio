@@ -8,9 +8,7 @@ const Contact = (): JSX.Element => {
       </section>
 
       <section className="methods">
-        <p className="contact-intro">
-          Open to inquiries, collaborations, and conversations.
-        </p>
+        <p className="contact-intro">Open to inquiries, collaborations, and conversations.</p>
 
         <div className="contact-links">
           <a href="mailto:leonard@uplg.xyz" className="contact-card">
