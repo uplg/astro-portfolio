@@ -4,7 +4,7 @@
   --surface: rgba(255, 255, 255, 0.08);
   --surface-hover: rgba(255, 255, 255, 0.12);
   --surface-border: rgba(255, 255, 255, 0.1);
-  --text-muted: rgba(240, 238, 246, 0.6);
+  --text-muted: rgba(240, 238, 246, 0.68);
   --text-secondary: rgba(240, 238, 246, 0.8);
   --accent-glow: rgba(160, 120, 255, 0.15);
 }
@@ -16,7 +16,7 @@
     --surface: rgba(255, 255, 255, 0.08);
     --surface-hover: rgba(255, 255, 255, 0.12);
     --surface-border: rgba(255, 255, 255, 0.1);
-    --text-muted: rgba(240, 238, 246, 0.6);
+    --text-muted: rgba(240, 238, 246, 0.68);
     --text-secondary: rgba(240, 238, 246, 0.8);
     --accent-glow: rgba(160, 120, 255, 0.15);
   }
@@ -29,8 +29,8 @@
     --surface: rgba(0, 0, 0, 0.05);
     --surface-hover: rgba(0, 0, 0, 0.1);
     --surface-border: rgba(0, 0, 0, 0.1);
-    --text-muted: rgba(42, 36, 56, 0.55);
-    --text-secondary: rgba(42, 36, 56, 0.75);
+    --text-muted: rgba(42, 36, 56, 0.78);
+    --text-secondary: rgba(42, 36, 56, 0.85);
     --accent-glow: rgba(120, 80, 200, 0.1);
   }
 }
@@ -41,7 +41,7 @@
   --surface: rgba(255, 255, 255, 0.08);
   --surface-hover: rgba(255, 255, 255, 0.12);
   --surface-border: rgba(255, 255, 255, 0.1);
-  --text-muted: rgba(240, 238, 246, 0.6);
+  --text-muted: rgba(240, 238, 246, 0.68);
   --text-secondary: rgba(240, 238, 246, 0.8);
   --accent-glow: rgba(160, 120, 255, 0.15);
 }
@@ -52,7 +52,7 @@
   --surface: rgba(0, 0, 0, 0.05);
   --surface-hover: rgba(0, 0, 0, 0.1);
   --surface-border: rgba(0, 0, 0, 0.1);
-  --text-muted: rgba(42, 36, 56, 0.55);
-  --text-secondary: rgba(42, 36, 56, 0.75);
+  --text-muted: rgba(42, 36, 56, 0.78);
+  --text-secondary: rgba(42, 36, 56, 0.85);
   --accent-glow: rgba(120, 80, 200, 0.1);
 }

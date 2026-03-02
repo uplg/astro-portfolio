@@ -15,8 +15,8 @@ const Home = (): JSX.Element => {
             We utilise insights and expertise gained from managing multiple successful projects.
           </p>
           <ul>
-            <li>Custom solutions using state of the art technologies</li>
-            <li>Decentralization (DLT)</li>
+            <li>Bespoke software solutions</li>
+            <li>Audio & signal processing</li>
             <li>Tracking solutions</li>
             <li>OpenID</li>
             <li>IoT</li>
@@ -33,8 +33,8 @@ const Home = (): JSX.Element => {
             scale.
           </p>
           <ul>
-            <li>On-premise private networks</li>
             <li>Self-sovereign identities</li>
+            <li>On-premise networks</li>
             <li>Offshore hosting</li>
             <li>Monitoring</li>
             <li>Security</li>
