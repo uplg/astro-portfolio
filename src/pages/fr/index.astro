@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header';
+import Home from '../../components/pages/Home';
+---
+
+<Layout title="Uplg." description="La passion de créer, l'ambition de devancer le futur." locale="fr">
+	<Header client:load />
+	<Home client:load locale="fr" />
+</Layout>

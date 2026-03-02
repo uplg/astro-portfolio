@@ -1,43 +1,43 @@
 import { type JSX } from "react";
 import { Chevron } from "../icons/Icons";
+import { t, type Locale } from "../../i18n";
 
-const Home = (): JSX.Element => {
+interface HomeProps {
+  locale?: Locale;
+}
+
+const Home = ({ locale = "en" }: HomeProps): JSX.Element => {
   return (
     <div id="page" className="page home" role="main">
       <section className="hero">
-        <h1>Passionately building and creating, bringing the future to the present.</h1>
+        <h1>{t(locale, "home.hero")}</h1>
       </section>
 
       <section className="areas">
         <section className="service">
-          <h2>Development</h2>
-          <p>
-            We utilise insights and expertise gained from managing multiple successful projects.
-          </p>
+          <h2>{t(locale, "home.dev.title")}</h2>
+          <p>{t(locale, "home.dev.desc")}</p>
           <ul>
-            <li>Bespoke software solutions</li>
-            <li>Audio & signal processing</li>
-            <li>Tracking solutions</li>
-            <li>OpenID</li>
-            <li>IoT</li>
+            <li>{t(locale, "home.dev.item1")}</li>
+            <li>{t(locale, "home.dev.item2")}</li>
+            <li>{t(locale, "home.dev.item3")}</li>
+            <li>{t(locale, "home.dev.item4")}</li>
+            <li>{t(locale, "home.dev.item5")}</li>
           </ul>
-          <a href="/projects">
-            Projects <Chevron />
+          <a href={locale === "fr" ? "/fr/projects" : "/projects"}>
+            {t(locale, "home.dev.projects")} <Chevron />
           </a>
         </section>
 
         <section className="service">
-          <h2>Networking</h2>
-          <p>
-            We have enabled the growth of large successful communities, deploying infrastructure at
-            scale.
-          </p>
+          <h2>{t(locale, "home.net.title")}</h2>
+          <p>{t(locale, "home.net.desc")}</p>
           <ul>
-            <li>Self-sovereign identities</li>
-            <li>On-premise networks</li>
-            <li>Offshore hosting</li>
-            <li>Monitoring</li>
-            <li>Security</li>
+            <li>{t(locale, "home.net.item1")}</li>
+            <li>{t(locale, "home.net.item2")}</li>
+            <li>{t(locale, "home.net.item3")}</li>
+            <li>{t(locale, "home.net.item4")}</li>
+            <li>{t(locale, "home.net.item5")}</li>
           </ul>
         </section>
       </section>

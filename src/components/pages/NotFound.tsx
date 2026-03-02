@@ -1,14 +1,20 @@
 import { type JSX } from "react";
+import { t, type Locale } from "../../i18n";
 
-const NotFound = (): JSX.Element => {
+interface NotFoundProps {
+  locale?: Locale;
+}
+
+const NotFound = ({ locale = "en" }: NotFoundProps): JSX.Element => {
+  const homeHref = locale === "fr" ? "/fr" : "/";
   return (
     <div id="page" className="page not-found" role="main">
       <section className="hero">
-        <h1>404 - Page Not Found</h1>
+        <h1>{t(locale, "notfound.title")}</h1>
       </section>
 
       <div className="links" style={{ textAlign: "center", marginTop: "30px" }}>
-        <a href="/">← Back to Home</a>
+        <a href={homeHref}>&larr; {t(locale, "notfound.back")}</a>
       </div>
     </div>
   );

@@ -1,18 +1,23 @@
 import { type JSX } from "react";
+import { t, type Locale } from "../../i18n";
 
-const Contact = (): JSX.Element => {
+interface ContactProps {
+  locale?: Locale;
+}
+
+const Contact = ({ locale = "en" }: ContactProps): JSX.Element => {
   return (
     <div id="page" className="page contact" role="main">
       <section className="hero">
-        <h1>Contact.</h1>
+        <h1>{t(locale, "contact.title")}</h1>
       </section>
 
       <section className="methods">
-        <p className="contact-intro">Open to inquiries, collaborations, and conversations.</p>
+        <p className="contact-intro">{t(locale, "contact.intro")}</p>
 
         <div className="contact-links">
           <a href="mailto:leonard@uplg.xyz" className="contact-card">
-            <span className="contact-label">Email</span>
+            <span className="contact-label">{t(locale, "contact.email")}</span>
             <span className="contact-value">leonard@uplg.xyz</span>
           </a>
 
@@ -22,7 +27,7 @@ const Contact = (): JSX.Element => {
             rel="noopener noreferrer"
             className="contact-card"
           >
-            <span className="contact-label">LinkedIn</span>
+            <span className="contact-label">{t(locale, "contact.linkedin")}</span>
             <span className="contact-value">/in/uplg</span>
           </a>
 
@@ -32,7 +37,7 @@ const Contact = (): JSX.Element => {
             rel="noopener noreferrer"
             className="contact-card"
           >
-            <span className="contact-label">GitHub</span>
+            <span className="contact-label">{t(locale, "contact.github")}</span>
             <span className="contact-value">/uplg</span>
           </a>
         </div>

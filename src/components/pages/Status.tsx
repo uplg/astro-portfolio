@@ -1,4 +1,5 @@
 import { useEffect, useState, type JSX } from "react";
+import { t, type Locale } from "../../i18n";
 
 interface Heartbeat {
   status: number;
@@ -35,7 +36,11 @@ interface ServiceStatus {
   uptime24h: number | null;
 }
 
-const Status = (): JSX.Element => {
+interface StatusProps {
+  locale?: Locale;
+}
+
+const Status = ({ locale = "en" }: StatusProps): JSX.Element => {
   const [services, setServices] = useState<ServiceStatus[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -85,7 +90,7 @@ const Status = (): JSX.Element => {
         setLastUpdated(new Date());
         setError(null);
       } catch {
-        setError("Failed to fetch status data");
+        setError(t(locale, "status.error"));
       } finally {
         setLoading(false);
       }
@@ -102,17 +107,17 @@ const Status = (): JSX.Element => {
   const overallColor = loading ? "#6b7280" : allUp ? "#10b981" : anyDown ? "#ef4444" : "#f59e0b";
 
   const overallText = loading
-    ? "Checking..."
+    ? t(locale, "status.checking")
     : allUp
-      ? "All systems operational"
+      ? t(locale, "status.all_operational")
       : anyDown
-        ? "Some services are experiencing issues"
-        : "Some services are in maintenance";
+        ? t(locale, "status.some_issues")
+        : t(locale, "status.some_maintenance");
 
   return (
     <div id="page" className="page status" role="main">
       <section className="hero">
-        <h1>Status.</h1>
+        <h1>{t(locale, "status.title")}</h1>
       </section>
 
       <div className="status-overview" style={{ borderColor: overallColor }}>
@@ -152,7 +157,8 @@ const Status = (): JSX.Element => {
                   {s.ping !== null && <span className="status-card-ping">{s.ping}ms</span>}
                   {s.uptime24h !== null && (
                     <span className="status-card-uptime">
-                      {s.uptime24h}% <span className="status-card-uptime-label">24h</span>
+                      {s.uptime24h}%{" "}
+                      <span className="status-card-uptime-label">{t(locale, "status.24h")}</span>
                     </span>
                   )}
                 </div>
@@ -162,7 +168,7 @@ const Status = (): JSX.Element => {
 
       {lastUpdated && (
         <p className="status-footer-note">
-          Last updated: {lastUpdated.toLocaleTimeString()}
+          {t(locale, "status.last_updated")} {lastUpdated.toLocaleTimeString()}
           {" · "}
           <a href="https://status.uplg.xyz/status/uplg" target="_blank" rel="noopener noreferrer">
             Uptime Kuma

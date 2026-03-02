@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header';
+import StatusPage from '../../components/pages/Status';
+---
+
+<Layout title="Statut - Uplg." description="Statut des services et disponibilité." locale="fr">
+	<Header client:load />
+	<StatusPage client:load locale="fr" />
+</Layout>

@@ -2,24 +2,14 @@ import { type JSX } from "react";
 import { useState, useEffect, useRef } from "react";
 import { GithubLogo } from "./icons/Icons";
 import StatusIndicator from "./StatusIndicator";
+import { t, getAlternatePath, type Locale } from "../i18n";
 
 interface FooterProps {
   currentPath?: string;
+  locale?: Locale;
 }
 
-// type RendererType = "auto" | "webgpu" | "webgl2" | "canvas2d";
-
-// const RENDERER_LABELS: Record<RendererType, string> = {
-//   auto: "Auto",
-//   webgpu: "GPU",
-//   webgl2: "GL2",
-//   canvas2d: "2D",
-// };
-
-// const RENDERER_ORDER: RendererType[] = ["auto", "webgpu", "webgl2", "canvas2d"];
-
 const LS_THEME_KEY = "theme";
-// const LS_RENDERER_KEY = "renderer";
 
 function loadTheme(): "system" | "dark" | "light" {
   try {
@@ -28,14 +18,6 @@ function loadTheme(): "system" | "dark" | "light" {
   } catch {}
   return "system";
 }
-
-// function loadRenderer(): RendererType {
-//   try {
-//     const v = localStorage.getItem(LS_RENDERER_KEY);
-//     if (v === "webgpu" || v === "webgl2" || v === "canvas2d") return v as RendererType;
-//   } catch {}
-//   return "auto";
-// }
 
 function saveTheme(t: "system" | "dark" | "light") {
   try {
@@ -47,23 +29,14 @@ function saveTheme(t: "system" | "dark" | "light") {
   } catch {}
 }
 
-// function saveRenderer(r: RendererType) {
-//   try {
-//     if (r === "auto") {
-//       localStorage.removeItem(LS_RENDERER_KEY);
-//     } else {
-//       localStorage.setItem(LS_RENDERER_KEY, r);
-//     }
-//   } catch {}
-// }
-
-const Footer = ({ currentPath }: FooterProps): JSX.Element => {
+const Footer = ({ currentPath, locale = "en" }: FooterProps): JSX.Element => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [clientPath, setClientPath] = useState<string | undefined>(undefined);
   const [theme, setTheme] = useState<"system" | "dark" | "light">(loadTheme);
-  // const [renderer, setRenderer] = useState<RendererType>(loadRenderer);
   const footerRef = useRef<HTMLElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
+
+  const prefix = locale === "fr" ? "/fr" : "";
 
   const cycleTheme = () => {
     const order: Array<"system" | "dark" | "light"> = ["system", "dark", "light"];
@@ -85,16 +58,38 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
     }
   };
 
-  // const cycleRenderer = () => {
-  //   const next = RENDERER_ORDER[(RENDERER_ORDER.indexOf(renderer) + 1) % RENDERER_ORDER.length];
-  //   setRenderer(next);
-  //   saveRenderer(next);
-  //   window.dispatchEvent(new CustomEvent("forceRenderer", { detail: { renderer: next } }));
-  // };
-
-  const themeIcon = theme === "system" ? "◐" : theme === "dark" ? "●" : "○";
+  const themeIcon = theme === "system" ? "\u25D0" : theme === "dark" ? "\u25CF" : "\u25CB";
   const themeTitle =
-    theme === "system" ? "Theme: System" : theme === "dark" ? "Theme: Dark" : "Theme: Light";
+    theme === "system"
+      ? t(locale, "theme.system")
+      : theme === "dark"
+        ? t(locale, "theme.dark")
+        : t(locale, "theme.light");
+
+  const otherLocale: Locale = locale === "fr" ? "en" : "fr";
+  const langSwitchPath = getAlternatePath(clientPath || currentPath || "/", otherLocale);
+
+  const langToggle = (
+    <span className="lang-toggle">
+      {locale === "fr" ? (
+        <>
+          <span className="lang-active">FR</span>
+          <span className="lang-sep">&middot;</span>
+          <a href={langSwitchPath} className="lang-link">
+            EN
+          </a>
+        </>
+      ) : (
+        <>
+          <a href={langSwitchPath} className="lang-link">
+            FR
+          </a>
+          <span className="lang-sep">&middot;</span>
+          <span className="lang-active">EN</span>
+        </>
+      )}
+    </span>
+  );
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -177,25 +172,25 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
         <div className={`footer-menu ${isMenuOpen ? "open" : ""}`}>
           <div className="footer-menu-content">
             <a
-              href="/"
-              className={`footer-link ${isActive("/") ? "active" : ""}`}
+              href={prefix || "/"}
+              className={`footer-link ${isActive(prefix || "/") ? "active" : ""}`}
               onClick={closeMenu}
             >
-              Home
+              {t(locale, "nav.home")}
             </a>
             <a
-              href="/projects"
-              className={`footer-link ${isActive("/projects") ? "active" : ""}`}
+              href={`${prefix}/projects`}
+              className={`footer-link ${isActive(`${prefix}/projects`) ? "active" : ""}`}
               onClick={closeMenu}
             >
-              Projects
+              {t(locale, "nav.projects")}
             </a>
             <a
-              href="/contact"
-              className={`footer-link ${isActive("/contact") ? "active" : ""}`}
+              href={`${prefix}/contact`}
+              className={`footer-link ${isActive(`${prefix}/contact`) ? "active" : ""}`}
               onClick={closeMenu}
             >
-              Contact
+              {t(locale, "nav.contact")}
             </a>
             <a
               href="https://github.com/uplg"
@@ -211,28 +206,31 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
               <button onClick={cycleTheme} className="footer-btn" title={themeTitle}>
                 {themeIcon}
               </button>
-              {/* <button
-                onClick={cycleRenderer}
-                className="footer-btn footer-btn-debug"
-                title={`Renderer: ${RENDERER_LABELS[renderer]}`}
-              >
-                {RENDERER_LABELS[renderer]}
-              </button> */}
+              {langToggle}
             </div>
 
-            <StatusIndicator />
+            <StatusIndicator locale={locale} />
           </div>
         </div>
 
         <div className="footer-content desktop-menu">
-          <a href="/" className={`footer-link ${isActive("/") ? "active" : ""}`}>
-            Home
+          <a
+            href={prefix || "/"}
+            className={`footer-link ${isActive(prefix || "/") ? "active" : ""}`}
+          >
+            {t(locale, "nav.home")}
           </a>
-          <a href="/projects" className={`footer-link ${isActive("/projects") ? "active" : ""}`}>
-            Projects
+          <a
+            href={`${prefix}/projects`}
+            className={`footer-link ${isActive(`${prefix}/projects`) ? "active" : ""}`}
+          >
+            {t(locale, "nav.projects")}
           </a>
-          <a href="/contact" className={`footer-link ${isActive("/contact") ? "active" : ""}`}>
-            Contact
+          <a
+            href={`${prefix}/contact`}
+            className={`footer-link ${isActive(`${prefix}/contact`) ? "active" : ""}`}
+          >
+            {t(locale, "nav.contact")}
           </a>
           <a
             href="https://github.com/uplg"
@@ -243,18 +241,12 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
             <GithubLogo />
           </a>
 
-          <StatusIndicator />
+          <StatusIndicator locale={locale} />
 
           <button onClick={cycleTheme} className="footer-btn" title={themeTitle}>
             {themeIcon}
           </button>
-          {/* <button
-            onClick={cycleRenderer}
-            className="footer-btn footer-btn-debug"
-            title={`Renderer: ${RENDERER_LABELS[renderer]}`}
-          >
-            {RENDERER_LABELS[renderer]}
-          </button> */}
+          {langToggle}
         </div>
       </footer>
     </>

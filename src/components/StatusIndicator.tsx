@@ -1,4 +1,5 @@
 import { useEffect, useState, type JSX } from "react";
+import { t, type Locale } from "../i18n";
 
 interface Heartbeat {
   status: number; // 0=DOWN, 1=UP, 2=PENDING, 3=MAINTENANCE
@@ -12,7 +13,11 @@ interface StatusResponse {
   uptimeList: Record<string, number>;
 }
 
-const StatusIndicator = (): JSX.Element => {
+interface StatusIndicatorProps {
+  locale?: Locale;
+}
+
+const StatusIndicator = ({ locale = "en" }: StatusIndicatorProps): JSX.Element => {
   const [status, setStatus] = useState<"operational" | "degraded" | "loading">("loading");
 
   useEffect(() => {
@@ -54,18 +59,20 @@ const StatusIndicator = (): JSX.Element => {
   const getStatusText = () => {
     switch (status) {
       case "operational":
-        return "Operational";
+        return t(locale, "status.operational");
       case "degraded":
-        return "Degraded";
+        return t(locale, "status.degraded");
       case "loading":
-        return "Loading...";
+        return t(locale, "status.loading");
     }
   };
+
+  const statusHref = locale === "fr" ? "/fr/status" : "/status";
 
   return (
     <div className="status-indicator">
       <div className="status-pulse" style={{ backgroundColor: getStatusColor() }} />
-      <a href="/status" className="footer-link">
+      <a href={statusHref} className="footer-link">
         <span className="status-text">{getStatusText()}</span>
       </a>
     </div>

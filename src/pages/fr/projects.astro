@@ -1,0 +1,10 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header';
+import ProjectsComponent from '../../components/pages/Projects';
+---
+
+<Layout title="Projets - Uplg." description="Projets passés" locale="fr">
+	<Header client:load />
+	<ProjectsComponent client:load locale="fr" />
+</Layout>

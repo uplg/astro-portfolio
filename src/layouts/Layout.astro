@@ -3,18 +3,25 @@ import '../styles/theme.css';
 import PerlinFlowBackground from '../components/background/PerlinFlowBackground';
 import Footer from '../components/Footer';
 import { ClientRouter } from 'astro:transitions';
+import { getAlternatePath, type Locale } from '../i18n';
 
 export interface Props {
   title: string;
   description: string;
+  locale?: Locale;
 }
 
-const { title, description } = Astro.props;
+const { title, description, locale = "en" } = Astro.props;
 const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replace(/\/$/, "");
+const lang = locale;
+const altLocale: Locale = locale === "fr" ? "en" : "fr";
+const altPath = getAlternatePath(currentPath, altLocale);
+const altHreflang = altLocale;
+const selfPath = currentPath;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -22,6 +29,8 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://status.uplg.xyz">
     <link rel="preconnect" href="https://plausible.uplg.xyz">
+    <link rel="alternate" hreflang={lang} href={selfPath} />
+    <link rel="alternate" hreflang={altHreflang} href={altPath} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <ClientRouter fallback="swap" />
@@ -54,7 +63,7 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     </script>
     <PerlinFlowBackground client:load transition:persist />
     <slot />
-    <Footer client:load transition:persist currentPath={currentPath} />
+    <Footer client:load transition:persist currentPath={currentPath} locale={locale} />
   </body>
 </html>
 
@@ -737,6 +746,37 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     opacity: 1;
   }
 
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    user-select: none;
+  }
+
+  .lang-active {
+    opacity: 1;
+    color: var(--main-color);
+  }
+
+  .lang-sep {
+    opacity: 0.4;
+    color: var(--main-color);
+  }
+
+  .lang-link {
+    opacity: 0.4;
+    color: var(--main-color);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .lang-link:hover {
+    opacity: 0.8;
+  }
+
   .no-js .footer-btn {
     display: none;
   }
@@ -940,6 +980,10 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
   .footer-menu .footer-btn {
     font-size: 0.9rem;
     padding: 0.5rem 1rem;
+  }
+
+  .footer-menu .lang-toggle {
+    font-size: 0.9rem;
   }
 
   .no-js .status-indicator {

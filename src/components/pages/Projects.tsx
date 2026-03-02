@@ -1,10 +1,11 @@
 import { type JSX, useState, useEffect } from "react";
 import { GithubLogo, StarIcon } from "../icons/Icons";
+import { t, type Locale, type TranslationKey } from "../../i18n";
 
 interface Project {
   name: string;
   slug: string;
-  description: string;
+  descriptionKey: TranslationKey;
   repository?: string;
   private?: boolean;
   status: string;
@@ -20,13 +21,17 @@ const getRepoInfo = (url: string): { owner: string; repo: string } | null => {
   return null;
 };
 
-const Projects = (): JSX.Element => {
+interface ProjectsProps {
+  locale?: Locale;
+}
+
+const Projects = ({ locale = "en" }: ProjectsProps): JSX.Element => {
   const [stars, setStars] = useState<Record<string, number | null>>({});
   const projects: Project[] = [
     {
       name: "Dobrunia Design",
       slug: "dobrunia",
-      description: "Custom objects & interior design.",
+      descriptionKey: "project.dobrunia.desc",
       status: "published",
       repository: "https://github.com/uplg/dobrunia-design",
       url: "https://www.dobruniadesign.com",
@@ -35,7 +40,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Mula(n)",
       slug: "mulan",
-      description: "HeartMuLa on Apple silicon ",
+      descriptionKey: "project.mulan.desc",
       status: "published",
       private: false,
       repository: "https://github.com/uplg/mulan",
@@ -43,9 +48,9 @@ const Projects = (): JSX.Element => {
       tags: ["Python", "MLX", "HeartMuLa", "FastAPI", "React", "Typescript"],
     },
     {
-      name: "Art minéral",
+      name: "Art min\u00e9ral",
       slug: "art-mineral",
-      description: "E-commerce website for minerals and custom objects.",
+      descriptionKey: "project.art-mineral.desc",
       status: "published",
       private: true,
       repository: "https://github.com/uplg/art-mineral",
@@ -55,7 +60,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Asahi Map",
       slug: "asahi-map",
-      description: "Easy and minimal Option key special character mappings on Asahi Linux!",
+      descriptionKey: "project.asahi-map.desc",
       status: "published",
       repository: "https://github.com/uplg/asahi-map",
       url: "https://github.com/uplg/asahi-map",
@@ -64,7 +69,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Portfolio",
       slug: "portfolio",
-      description: "This website.",
+      descriptionKey: "project.portfolio.desc",
       repository: "https://github.com/uplg/astro-portfolio",
       status: "published",
       url: "https://uplg.xyz",
@@ -73,7 +78,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Home monitor",
       slug: "home-monitor",
-      description: "Control your Tuya cat and Hue BLE devices locally.",
+      descriptionKey: "project.home-monitor.desc",
       status: "published",
       repository: "https://github.com/uplg/home-monitor",
       url: "https://github.com/uplg/home-monitor",
@@ -82,7 +87,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Teeter",
       slug: "teeter",
-      description: "Accelerometer-based maze app for Android.",
+      descriptionKey: "project.teeter.desc",
       status: "published",
       repository: "https://github.com/uplg/teeter",
       url: "https://github.com/uplg/teeter",
@@ -91,7 +96,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Backup tool",
       slug: "backup-tool",
-      description: "Multi-site, simple, backup in NodeJS.",
+      descriptionKey: "project.backup-tool.desc",
       repository: "https://github.com/uplg/backup-tool",
       status: "published",
       url: "https://github.com/uplg/backup-tool",
@@ -100,7 +105,7 @@ const Projects = (): JSX.Element => {
     {
       name: "SummarySwift",
       slug: "summary-swift",
-      description: "Summarize videos locally with AI on a native app!",
+      descriptionKey: "project.summary-swift.desc",
       status: "published",
       repository: "https://github.com/uplg/summary-swift",
       url: "https://github.com/uplg/summary-swift",
@@ -110,7 +115,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Cheno",
       slug: "cheno",
-      description: "Iron artist.",
+      descriptionKey: "project.cheno.desc",
       status: "published",
       repository: "https://github.com/uplg/cheno-website",
       private: true,
@@ -120,7 +125,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Video summarizer",
       slug: "video-summarizer",
-      description: "Summarize videos using AI.",
+      descriptionKey: "project.video-summarizer.desc",
       repository: "https://github.com/uplg/video-summarize",
       status: "published",
       url: "https://github.com/uplg/video-summarize",
@@ -129,7 +134,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Thiweb",
       slug: "thiweb",
-      description: "Community.",
+      descriptionKey: "project.thiweb.desc",
       repository: "https://github.com/uplg/thiweb-crypt-n-decrypt",
       status: "published",
       url: "https://forum.thiweb.com",
@@ -138,7 +143,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Google Authenticator Export",
       slug: "ga-export",
-      description: "Export every secret easily from Google Authenticator.",
+      descriptionKey: "project.ga-export.desc",
       repository: "https://github.com/uplg/gauth-export",
       status: "published",
       url: "https://ga.uplg.xyz",
@@ -147,7 +152,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Persin Conseil",
       slug: "persin",
-      description: "IT consulting and services.",
+      descriptionKey: "project.persin.desc",
       repository: "https://github.com/uplg/persin-conseil",
       url: "https://www.persin.fr",
       status: "published",
@@ -156,7 +161,7 @@ const Projects = (): JSX.Element => {
     {
       name: "Fujin",
       slug: "fujin",
-      description: "Crypto / news Bot on Telegram.",
+      descriptionKey: "project.fujin.desc",
       repository: "https://github.com/uplg/fujin",
       status: "archived",
       url: "https://github.com/uplg/fujin",
@@ -165,7 +170,7 @@ const Projects = (): JSX.Element => {
     {
       name: "BricksSDK",
       slug: "bricks-sdk",
-      description: "An SDK to access Bricks.co.",
+      descriptionKey: "project.bricks-sdk.desc",
       repository: "https://github.com/uplg/bricks_sdk",
       status: "archived",
       url: "https://github.com/uplg/bricks_sdk",
@@ -174,7 +179,7 @@ const Projects = (): JSX.Element => {
     {
       name: "MonpetitplacementSDK",
       slug: "mpp-sdk",
-      description: "An SDK to access MonPetitPlacement.",
+      descriptionKey: "project.mpp-sdk.desc",
       repository: "https://github.com/uplg/monpetitplacement_sdk",
       status: "archived",
       url: "https://github.com/uplg/monpetitplacement_sdk",
@@ -183,7 +188,7 @@ const Projects = (): JSX.Element => {
     {
       name: "PDFFormsFiller",
       slug: "pdf-forms-filler",
-      description: "Fill Acrobat forms easily using pure PHP ! 💪",
+      descriptionKey: "project.pdf-forms-filler.desc",
       repository: "https://github.com/uplg/PDFFormsFiller",
       status: "archived",
       url: "https://github.com/uplg/PDFFormsFiller",
@@ -228,7 +233,7 @@ const Projects = (): JSX.Element => {
   return (
     <div id="page" className="page" role="main">
       <div className="content-section-header">
-        <h1>Projects</h1>
+        <h1>{t(locale, "projects.title")}</h1>
       </div>
 
       <section className="projects">
@@ -238,7 +243,7 @@ const Projects = (): JSX.Element => {
               {project.name}
             </a>
             <div className="excerpt">
-              <p>{project.description}</p>
+              <p>{t(locale, project.descriptionKey)}</p>
               <p className="tags">
                 {project.tags.map((tag) => (
                   <span key={tag} className="tag">
