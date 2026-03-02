@@ -21,7 +21,6 @@ const StatusIndicator = (): JSX.Element => {
         const response = await fetch("https://status.uplg.xyz/api/status-page/heartbeat/uplg");
         const data: StatusResponse = await response.json();
 
-        // Check if any service is down (status 0) or in maintenance (status 3)
         const isAnyServiceDown = Object.values(data.heartbeatList).some((heartbeats) => {
           if (heartbeats.length === 0) return true;
           const latestHeartbeat = heartbeats[heartbeats.length - 1];

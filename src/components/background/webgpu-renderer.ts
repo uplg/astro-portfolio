@@ -68,7 +68,6 @@ fn simulate(@builtin(global_invocation_id) id: vec3<u32>) {
   vx += params.force * cos(angle);
   vy += params.force * sin(angle);
 
-  // Mouse repulsion
   let dx = px - params.mouseX;
   let dy = py - params.mouseY;
   let distSq = dx * dx + dy * dy;
@@ -172,7 +171,6 @@ struct FadeParams {
 
 @fragment
 fn fs_main(@builtin(position) pos: vec4<f32>) -> @location(0) vec4<f32> {
-  // Colors match CSS --app-container: dark=#0a0f1a, light=#fafafa
   let darkBg = vec3<f32>(10.0/255.0, 15.0/255.0, 26.0/255.0);
   let lightBg = vec3<f32>(250.0/255.0, 250.0/255.0, 250.0/255.0);
   let bg = select(lightBg, darkBg, fadeParams.dark > 0.5);
@@ -246,7 +244,10 @@ export class WebGPUFlowField implements FlowFieldRenderer {
   private mouseY = -1000;
   private format: GPUTextureFormat | null = null;
 
-  async init(canvas: HTMLCanvasElement, config: FlowFieldConfig): Promise<boolean> {
+  async init(
+    canvas: HTMLCanvasElement,
+    config: FlowFieldConfig,
+  ): Promise<boolean> {
     if (!navigator.gpu) return false;
 
     try {
@@ -284,7 +285,8 @@ export class WebGPUFlowField implements FlowFieldRenderer {
     this.offscreenTexture = this.device.createTexture({
       size: [width, height],
       format: this.format,
-      usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING,
+      usage:
+        GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING,
     });
     this.offscreenView = this.offscreenTexture.createView();
   }
@@ -535,7 +537,13 @@ export class WebGPUFlowField implements FlowFieldRenderer {
 
   start() {
     const frame = () => {
-      if (!this.device || !this.context || !this.config || !this.canvas || !this.offscreenView)
+      if (
+        !this.device ||
+        !this.context ||
+        !this.config ||
+        !this.canvas ||
+        !this.offscreenView
+      )
         return;
 
       if (!this.paused) {
@@ -579,7 +587,12 @@ export class WebGPUFlowField implements FlowFieldRenderer {
         this.device.queue.writeBuffer(
           this.fadeParamsBuffer!,
           0,
-          new Float32Array([this.config.fadeAlpha, this.config.dark ? 1.0 : 0.0, 0, 0]),
+          new Float32Array([
+            this.config.fadeAlpha,
+            this.config.dark ? 1.0 : 0.0,
+            0,
+            0,
+          ]),
         );
 
         const commandEncoder = this.device.createCommandEncoder();
@@ -587,7 +600,9 @@ export class WebGPUFlowField implements FlowFieldRenderer {
         const computePass = commandEncoder.beginComputePass();
         computePass.setPipeline(this.computePipeline!);
         computePass.setBindGroup(0, this.computeBindGroup!);
-        computePass.dispatchWorkgroups(Math.ceil(this.config.particleCount / 256));
+        computePass.dispatchWorkgroups(
+          Math.ceil(this.config.particleCount / 256),
+        );
         computePass.end();
 
         const offscreenPass = commandEncoder.beginRenderPass({

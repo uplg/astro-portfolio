@@ -72,7 +72,6 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
     saveTheme(next);
 
     if (next === "system") {
-      // Resolve system preference and apply immediately
       const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
       window.dispatchEvent(new CustomEvent("themeChange", { detail: { dark: isDark } }));

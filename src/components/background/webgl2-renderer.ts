@@ -121,7 +121,6 @@ precision highp float;
 uniform float uFadeAlpha;
 uniform float uDark;
 out vec4 fragColor;
-// Colors match CSS --app-container: dark=#0a0f1a, light=#fafafa
 const vec3 darkBg = vec3(10.0/255.0, 15.0/255.0, 26.0/255.0);
 const vec3 lightBg = vec3(250.0/255.0, 250.0/255.0, 250.0/255.0);
 void main() {
@@ -184,7 +183,7 @@ function createProgram(
   return program;
 }
 
-const STRIDE = 20; // 5 floats * 4 bytes
+const STRIDE = 20;
 const LOC_POSITION = 0;
 const LOC_VELOCITY = 1;
 const LOC_AGE = 2;
@@ -197,9 +196,18 @@ export class WebGL2FlowField implements FlowFieldRenderer {
   private renderProgram: WebGLProgram | null = null;
   private fadeProgram: WebGLProgram | null = null;
 
-  private particleBuffers: [WebGLBuffer | null, WebGLBuffer | null] = [null, null];
-  private simVAOs: [WebGLVertexArrayObject | null, WebGLVertexArrayObject | null] = [null, null];
-  private renderVAOs: [WebGLVertexArrayObject | null, WebGLVertexArrayObject | null] = [null, null];
+  private particleBuffers: [WebGLBuffer | null, WebGLBuffer | null] = [
+    null,
+    null,
+  ];
+  private simVAOs: [
+    WebGLVertexArrayObject | null,
+    WebGLVertexArrayObject | null,
+  ] = [null, null];
+  private renderVAOs: [
+    WebGLVertexArrayObject | null,
+    WebGLVertexArrayObject | null,
+  ] = [null, null];
   private tf: WebGLTransformFeedback | null = null;
   private fadeVAO: WebGLVertexArrayObject | null = null;
   private fadeQuadBuffer: WebGLBuffer | null = null;
@@ -215,7 +223,10 @@ export class WebGL2FlowField implements FlowFieldRenderer {
   private uRender: Record<string, WebGLUniformLocation | null> = {};
   private uFade: Record<string, WebGLUniformLocation | null> = {};
 
-  async init(canvas: HTMLCanvasElement, config: FlowFieldConfig): Promise<boolean> {
+  async init(
+    canvas: HTMLCanvasElement,
+    config: FlowFieldConfig,
+  ): Promise<boolean> {
     const gl = canvas.getContext("webgl2", {
       alpha: true,
       premultipliedAlpha: false,
@@ -235,14 +246,21 @@ export class WebGL2FlowField implements FlowFieldRenderer {
     };
     const renderAttribs = { aPosition: LOC_POSITION };
 
-    this.simulationProgram = createProgram(gl, SIMULATION_VS, SIMULATION_FS, simAttribs, [
-      "vPosition",
-      "vVelocity",
-      "vAge",
-    ]);
+    this.simulationProgram = createProgram(
+      gl,
+      SIMULATION_VS,
+      SIMULATION_FS,
+      simAttribs,
+      ["vPosition", "vVelocity", "vAge"],
+    );
     if (!this.simulationProgram) return false;
 
-    this.renderProgram = createProgram(gl, PARTICLE_VS, PARTICLE_FS, renderAttribs);
+    this.renderProgram = createProgram(
+      gl,
+      PARTICLE_VS,
+      PARTICLE_FS,
+      renderAttribs,
+    );
     if (!this.renderProgram) return false;
 
     this.fadeProgram = createProgram(gl, FADE_VS, FADE_FS, {
@@ -396,7 +414,11 @@ export class WebGL2FlowField implements FlowFieldRenderer {
         gl.drawArrays(gl.TRIANGLES, 0, 6);
 
         gl.useProgram(this.simulationProgram);
-        gl.uniform2f(this.uSim.uResolution!, this.canvas.width, this.canvas.height);
+        gl.uniform2f(
+          this.uSim.uResolution!,
+          this.canvas.width,
+          this.canvas.height,
+        );
         gl.uniform1f(this.uSim.uNoiseScale!, this.config.noiseScale);
         gl.uniform1f(this.uSim.uForce!, this.config.force);
         gl.uniform1f(this.uSim.uDamping!, this.config.damping);
@@ -411,7 +433,11 @@ export class WebGL2FlowField implements FlowFieldRenderer {
         gl.bindVertexArray(this.simVAOs[src]);
 
         gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, this.tf);
-        gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, this.particleBuffers[dst]);
+        gl.bindBufferBase(
+          gl.TRANSFORM_FEEDBACK_BUFFER,
+          0,
+          this.particleBuffers[dst],
+        );
 
         gl.enable(gl.RASTERIZER_DISCARD);
         gl.beginTransformFeedback(gl.POINTS);
@@ -422,14 +448,17 @@ export class WebGL2FlowField implements FlowFieldRenderer {
         gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, null);
         gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, null);
 
-        // Additive blending for light-on-dark; standard alpha for dark-on-light
         if (this.config.dark) {
           gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
         } else {
           gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
         }
         gl.useProgram(this.renderProgram);
-        gl.uniform2f(this.uRender.uResolution!, this.canvas.width, this.canvas.height);
+        gl.uniform2f(
+          this.uRender.uResolution!,
+          this.canvas.width,
+          this.canvas.height,
+        );
         gl.uniform1f(this.uRender.uParticleSize!, this.config.particleSize);
         gl.uniform1f(this.uRender.uDark!, this.config.dark ? 1.0 : 0.0);
 
