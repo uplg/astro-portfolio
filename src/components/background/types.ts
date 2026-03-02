@@ -43,7 +43,7 @@ export const DEFAULT_CONFIG: FlowFieldConfig = {
   noiseScale: 0.0015,
   force: 0.2,
   damping: 0.96,
-  fadeAlpha: 0.03,
+  fadeAlpha: 0.06,
   angleMult: Math.PI * 2.5,
   timeSpeed: 0.006,
   maxAge: 300,

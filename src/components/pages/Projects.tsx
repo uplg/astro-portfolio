@@ -80,6 +80,15 @@ const Projects = (): JSX.Element => {
       tags: ["Kotlin"],
     },
     {
+      name: "Portfolio",
+      slug: "portfolio",
+      description: "This website.",
+      repository: "https://github.com/uplg/astro-portfolio",
+      status: "published",
+      url: "https://uplg.xyz",
+      tags: ["Astro", "Typescript", "React", "WebGPU", "WebGL2", "no-js handling"],
+    },
+    {
       name: "Backup tool",
       slug: "backup-tool",
       description: "Multi-site, simple, backup in NodeJS.",
@@ -116,15 +125,6 @@ const Projects = (): JSX.Element => {
       status: "published",
       url: "https://github.com/uplg/video-summarize",
       tags: ["MLX", "Whisper", "Gemma", "FastAPI", "React", "Python"],
-    },
-    {
-      name: "Portfolio",
-      slug: "portfolio",
-      description: "This website.",
-      repository: "https://github.com/uplg/astro-portfolio",
-      status: "published",
-      url: "https://uplg.xyz",
-      tags: ["Astro", "Typescript", "React", "no-js handling"],
     },
     {
       name: "Thiweb",
