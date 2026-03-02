@@ -7,19 +7,19 @@ interface FooterProps {
   currentPath?: string;
 }
 
-type RendererType = "auto" | "webgpu" | "webgl2" | "canvas2d";
+// type RendererType = "auto" | "webgpu" | "webgl2" | "canvas2d";
 
-const RENDERER_LABELS: Record<RendererType, string> = {
-  auto: "Auto",
-  webgpu: "GPU",
-  webgl2: "GL2",
-  canvas2d: "2D",
-};
+// const RENDERER_LABELS: Record<RendererType, string> = {
+//   auto: "Auto",
+//   webgpu: "GPU",
+//   webgl2: "GL2",
+//   canvas2d: "2D",
+// };
 
-const RENDERER_ORDER: RendererType[] = ["auto", "webgpu", "webgl2", "canvas2d"];
+// const RENDERER_ORDER: RendererType[] = ["auto", "webgpu", "webgl2", "canvas2d"];
 
 const LS_THEME_KEY = "theme";
-const LS_RENDERER_KEY = "renderer";
+// const LS_RENDERER_KEY = "renderer";
 
 function loadTheme(): "system" | "dark" | "light" {
   try {
@@ -29,13 +29,13 @@ function loadTheme(): "system" | "dark" | "light" {
   return "system";
 }
 
-function loadRenderer(): RendererType {
-  try {
-    const v = localStorage.getItem(LS_RENDERER_KEY);
-    if (v === "webgpu" || v === "webgl2" || v === "canvas2d") return v as RendererType;
-  } catch {}
-  return "auto";
-}
+// function loadRenderer(): RendererType {
+//   try {
+//     const v = localStorage.getItem(LS_RENDERER_KEY);
+//     if (v === "webgpu" || v === "webgl2" || v === "canvas2d") return v as RendererType;
+//   } catch {}
+//   return "auto";
+// }
 
 function saveTheme(t: "system" | "dark" | "light") {
   try {
@@ -47,21 +47,21 @@ function saveTheme(t: "system" | "dark" | "light") {
   } catch {}
 }
 
-function saveRenderer(r: RendererType) {
-  try {
-    if (r === "auto") {
-      localStorage.removeItem(LS_RENDERER_KEY);
-    } else {
-      localStorage.setItem(LS_RENDERER_KEY, r);
-    }
-  } catch {}
-}
+// function saveRenderer(r: RendererType) {
+//   try {
+//     if (r === "auto") {
+//       localStorage.removeItem(LS_RENDERER_KEY);
+//     } else {
+//       localStorage.setItem(LS_RENDERER_KEY, r);
+//     }
+//   } catch {}
+// }
 
 const Footer = ({ currentPath }: FooterProps): JSX.Element => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [clientPath, setClientPath] = useState<string | undefined>(undefined);
   const [theme, setTheme] = useState<"system" | "dark" | "light">(loadTheme);
-  const [renderer, setRenderer] = useState<RendererType>(loadRenderer);
+  // const [renderer, setRenderer] = useState<RendererType>(loadRenderer);
   const footerRef = useRef<HTMLElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
 
@@ -85,12 +85,12 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
     }
   };
 
-  const cycleRenderer = () => {
-    const next = RENDERER_ORDER[(RENDERER_ORDER.indexOf(renderer) + 1) % RENDERER_ORDER.length];
-    setRenderer(next);
-    saveRenderer(next);
-    window.dispatchEvent(new CustomEvent("forceRenderer", { detail: { renderer: next } }));
-  };
+  // const cycleRenderer = () => {
+  //   const next = RENDERER_ORDER[(RENDERER_ORDER.indexOf(renderer) + 1) % RENDERER_ORDER.length];
+  //   setRenderer(next);
+  //   saveRenderer(next);
+  //   window.dispatchEvent(new CustomEvent("forceRenderer", { detail: { renderer: next } }));
+  // };
 
   const themeIcon = theme === "system" ? "◐" : theme === "dark" ? "●" : "○";
   const themeTitle =
@@ -211,13 +211,13 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
               <button onClick={cycleTheme} className="footer-btn" title={themeTitle}>
                 {themeIcon}
               </button>
-              <button
+              {/* <button
                 onClick={cycleRenderer}
                 className="footer-btn footer-btn-debug"
                 title={`Renderer: ${RENDERER_LABELS[renderer]}`}
               >
                 {RENDERER_LABELS[renderer]}
-              </button>
+              </button> */}
             </div>
 
             <StatusIndicator />
@@ -248,13 +248,13 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
           <button onClick={cycleTheme} className="footer-btn" title={themeTitle}>
             {themeIcon}
           </button>
-          <button
+          {/* <button
             onClick={cycleRenderer}
             className="footer-btn footer-btn-debug"
             title={`Renderer: ${RENDERER_LABELS[renderer]}`}
           >
             {RENDERER_LABELS[renderer]}
-          </button>
+          </button> */}
         </div>
       </footer>
     </>

@@ -244,10 +244,7 @@ export class WebGPUFlowField implements FlowFieldRenderer {
   private mouseY = -1000;
   private format: GPUTextureFormat | null = null;
 
-  async init(
-    canvas: HTMLCanvasElement,
-    config: FlowFieldConfig,
-  ): Promise<boolean> {
+  async init(canvas: HTMLCanvasElement, config: FlowFieldConfig): Promise<boolean> {
     if (!navigator.gpu) return false;
 
     try {
@@ -285,8 +282,7 @@ export class WebGPUFlowField implements FlowFieldRenderer {
     this.offscreenTexture = this.device.createTexture({
       size: [width, height],
       format: this.format,
-      usage:
-        GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING,
+      usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING,
     });
     this.offscreenView = this.offscreenTexture.createView();
   }
@@ -537,13 +533,7 @@ export class WebGPUFlowField implements FlowFieldRenderer {
 
   start() {
     const frame = () => {
-      if (
-        !this.device ||
-        !this.context ||
-        !this.config ||
-        !this.canvas ||
-        !this.offscreenView
-      )
+      if (!this.device || !this.context || !this.config || !this.canvas || !this.offscreenView)
         return;
 
       if (!this.paused) {
@@ -587,12 +577,7 @@ export class WebGPUFlowField implements FlowFieldRenderer {
         this.device.queue.writeBuffer(
           this.fadeParamsBuffer!,
           0,
-          new Float32Array([
-            this.config.fadeAlpha,
-            this.config.dark ? 1.0 : 0.0,
-            0,
-            0,
-          ]),
+          new Float32Array([this.config.fadeAlpha, this.config.dark ? 1.0 : 0.0, 0, 0]),
         );
 
         const commandEncoder = this.device.createCommandEncoder();
@@ -600,9 +585,7 @@ export class WebGPUFlowField implements FlowFieldRenderer {
         const computePass = commandEncoder.beginComputePass();
         computePass.setPipeline(this.computePipeline!);
         computePass.setBindGroup(0, this.computeBindGroup!);
-        computePass.dispatchWorkgroups(
-          Math.ceil(this.config.particleCount / 256),
-        );
+        computePass.dispatchWorkgroups(Math.ceil(this.config.particleCount / 256));
         computePass.end();
 
         const offscreenPass = commandEncoder.beginRenderPass({
