@@ -42,7 +42,7 @@ export default {
   "contact.github": "GitHub",
 
   // Projects
-  "projects.title": "Projects",
+  "projects.title": "Projects.",
 
   // Project descriptions
   "project.dobrunia.desc": "Custom objects & interior design.",
