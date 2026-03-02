@@ -8,22 +8,36 @@ const Contact = (): JSX.Element => {
       </section>
 
       <section className="methods">
-        <p>
-          Feel free to reach out to me for any inquiries, collaborations, or
-          just to say hello!
+        <p className="contact-intro">
+          Open to inquiries, collaborations, and conversations.
         </p>
-        <p>
-          <a href="mailto:leonard@uplg.xyz">Mail</a>
-        </p>
-        <p>
+
+        <div className="contact-links">
+          <a href="mailto:leonard@uplg.xyz" className="contact-card">
+            <span className="contact-label">Email</span>
+            <span className="contact-value">leonard@uplg.xyz</span>
+          </a>
+
           <a
             href="https://linkedin.com/in/uplg"
             target="_blank"
             rel="noopener noreferrer"
+            className="contact-card"
           >
-            LinkedIn
+            <span className="contact-label">LinkedIn</span>
+            <span className="contact-value">/in/uplg</span>
           </a>
-        </p>
+
+          <a
+            href="https://github.com/uplg"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contact-card"
+          >
+            <span className="contact-label">GitHub</span>
+            <span className="contact-value">/uplg</span>
+          </a>
+        </div>
       </section>
     </div>
   );

@@ -28,7 +28,7 @@ const StatusIndicator = (): JSX.Element => {
         // Check if any service is down (status 0) or in maintenance (status 3)
         const isAnyServiceDown = Object.values(data.heartbeatList).some(
           (heartbeats) => {
-            if (heartbeats.length === 0) return true; // No heartbeats = down
+            if (heartbeats.length === 0) return true;
             const latestHeartbeat = heartbeats[heartbeats.length - 1];
             return latestHeartbeat.status === 0 || latestHeartbeat.status === 3;
           }
@@ -37,7 +37,7 @@ const StatusIndicator = (): JSX.Element => {
         setStatus(isAnyServiceDown ? "degraded" : "operational");
       } catch (error) {
         console.error("Failed to fetch status:", error);
-        setStatus("degraded"); // Assume degraded if we can't fetch status
+        setStatus("degraded");
       }
     };
 
@@ -76,9 +76,7 @@ const StatusIndicator = (): JSX.Element => {
         style={{ backgroundColor: getStatusColor() }}
       />
       <a
-        href="https://status.uplg.xyz/status/uplg"
-        target="_blank"
-        rel="noopener noreferrer"
+        href="/status"
         className="footer-link"
       >
         <span className="status-text">{getStatusText()}</span>

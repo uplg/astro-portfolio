@@ -1,0 +1,62 @@
+/*
+ * Theme CSS variables
+ */
+
+:root {
+  --app-container: #0a0f1a;
+  --main-color: #f0eef6;
+  --surface: rgba(255, 255, 255, 0.08);
+  --surface-hover: rgba(255, 255, 255, 0.12);
+  --surface-border: rgba(255, 255, 255, 0.1);
+  --text-muted: rgba(240, 238, 246, 0.6);
+  --text-secondary: rgba(240, 238, 246, 0.8);
+  --accent-glow: rgba(160, 120, 255, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --app-container: #0a0f1a;
+    --main-color: #f0eef6;
+    --surface: rgba(255, 255, 255, 0.08);
+    --surface-hover: rgba(255, 255, 255, 0.12);
+    --surface-border: rgba(255, 255, 255, 0.1);
+    --text-muted: rgba(240, 238, 246, 0.6);
+    --text-secondary: rgba(240, 238, 246, 0.8);
+    --accent-glow: rgba(160, 120, 255, 0.15);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --app-container: #fafafa;
+    --main-color: #2a2438;
+    --surface: rgba(0, 0, 0, 0.05);
+    --surface-hover: rgba(0, 0, 0, 0.1);
+    --surface-border: rgba(0, 0, 0, 0.1);
+    --text-muted: rgba(42, 36, 56, 0.55);
+    --text-secondary: rgba(42, 36, 56, 0.75);
+    --accent-glow: rgba(120, 80, 200, 0.1);
+  }
+}
+
+[data-theme="dark"] {
+  --app-container: #0a0f1a;
+  --main-color: #f0eef6;
+  --surface: rgba(255, 255, 255, 0.08);
+  --surface-hover: rgba(255, 255, 255, 0.12);
+  --surface-border: rgba(255, 255, 255, 0.1);
+  --text-muted: rgba(240, 238, 246, 0.6);
+  --text-secondary: rgba(240, 238, 246, 0.8);
+  --accent-glow: rgba(160, 120, 255, 0.15);
+}
+
+[data-theme="light"] {
+  --app-container: #fafafa;
+  --main-color: #2a2438;
+  --surface: rgba(0, 0, 0, 0.05);
+  --surface-hover: rgba(0, 0, 0, 0.1);
+  --surface-border: rgba(0, 0, 0, 0.1);
+  --text-muted: rgba(42, 36, 56, 0.55);
+  --text-secondary: rgba(42, 36, 56, 0.75);
+  --accent-glow: rgba(120, 80, 200, 0.1);
+}

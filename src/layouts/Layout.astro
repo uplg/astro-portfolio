@@ -1,5 +1,6 @@
 ---
-import BackgroundCanvas from '../components/BackgroundCanvas';
+import '../styles/theme.css';
+import PerlinFlowBackground from '../components/background/PerlinFlowBackground';
 import Footer from '../components/Footer';
 import { ClientRouter } from 'astro:transitions';
 
@@ -33,8 +34,32 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
       document.addEventListener('astro:page-load', () => {
         document.body.classList.remove('no-js');
       });
+
+      // Resolve and apply theme before React hydrates (prevents flash).
+      // Always sets data-theme so we never rely on prefers-color-scheme
+      // media queries for CSS variables (avoids race during Astro page swaps).
+      (() => {
+        const resolveTheme = () => {
+          try {
+            const saved = localStorage.getItem('theme');
+            if (saved === 'dark' || saved === 'light') return saved;
+          } catch {}
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        };
+
+        // Set on initial load
+        document.documentElement.setAttribute('data-theme', resolveTheme());
+
+        // Preserve data-theme across Astro client-side navigations.
+        // swapRootAttributes() removes all <html> attrs then copies from the
+        // new document — so we stamp data-theme onto the incoming doc first.
+        document.addEventListener('astro:before-swap', (e) => {
+          const theme = document.documentElement.getAttribute('data-theme') || resolveTheme();
+          e.newDocument.documentElement.setAttribute('data-theme', theme);
+        });
+      })();
     </script>
-    <BackgroundCanvas client:load transition:persist />
+    <PerlinFlowBackground client:load transition:persist />
     <slot />
     <Footer client:load transition:persist currentPath={currentPath} />
   </body>
@@ -56,31 +81,11 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     --uplg-primary: #525252;
     --uplg-font-primary: "Kotori Rose", -apple-system, BlinkMacSystemFont,
       "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-
-    --base: hsl(var(--hue), 95%, 50%);
-    --complimentary1: hsl(var(--hue-complimentary1), 95%, 50%);
-    --complimentary2: hsl(var(--hue-complimentary2), 95%, 50%);
-
-    --bg-gradient: linear-gradient(
-      to bottom,
-      hsl(var(--hue), 95%, 99%),
-      hsl(var(--hue), 95%, 84%)
-    );
   }
 
-  @media (prefers-color-scheme: dark) {
-    body {
-      --app-container: #111827;
-      --main-color: #fff;
-    }
-  }
-
-  @media (prefers-color-scheme: light) {
-    body {
-      --app-container: #b2b2b2;
-      --main-color: #1f1c2e;
-    }
-  }
+  /* Theme variables (--app-container, --main-color, --surface, etc.)
+     are defined in src/styles/theme.css, imported in frontmatter so
+     they persist across Astro client-side navigations. */
 
   * {
     box-sizing: border-box;
@@ -100,6 +105,10 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     overflow-x: hidden;
   }
 
+  html {
+    background-color: var(--app-container);
+  }
+
   body {
     max-width: 1920px;
     min-height: 100vh;
@@ -108,8 +117,24 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     color: var(--main-color);
     font-family: var(--uplg-font-primary);
     justify-content: center;
-    background-color: var(--app-container);
+    background: transparent;
     position: relative;
+  }
+
+  /* Subtle grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
   }
 
   a {
@@ -117,14 +142,40 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     color: var(--main-color);
     opacity: 0.8;
     transition: opacity 0.3s;
+    position: relative;
   }
 
   a:hover {
     opacity: 1;
   }
 
+  /* Animated underline for inline text links (not nav, not cards) */
+  .contact a,
+  .hero a {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .contact a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--main-color);
+    transition: width 0.3s ease;
+  }
+
+  .contact a:hover::after {
+    width: 100%;
+  }
+
   h1 {
     font-size: 1.5em;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
 
   h1,
@@ -133,6 +184,17 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
   h4 {
     user-select: none;
     color: var(--main-color);
+  }
+
+  h2 {
+    font-size: 1.3em;
+    letter-spacing: -0.01em;
+    opacity: 0.95;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.6;
   }
 
   button,
@@ -177,6 +239,7 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
 
   .hero {
     margin-bottom: 48px;
+    border-radius: 12px;
   }
 
   .hero h1 {
@@ -195,6 +258,7 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
 
   .service {
     user-select: none;
+    border-radius: 12px;
   }
 
   .service h2 {
@@ -210,12 +274,13 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
   .service li {
     padding: 0.25rem 0;
     opacity: 0.8;
+    color: var(--text-secondary);
   }
 
   .service li:before {
-    content: "→";
+    content: "\2192";
     margin-right: 0.5rem;
-    opacity: 0.6;
+    opacity: 0.4;
   }
 
   .service a {
@@ -249,15 +314,21 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
   .project {
     display: flex;
     padding: 28px 16px;
-    background-color: rgba(0, 0, 0, 0.2);
+    background: var(--surface);
     flex-direction: column;
     align-items: flex-start;
     border-radius: 15px;
-    transition: background 0.3s ease;
+    border: 1px solid var(--surface-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   }
 
   .project:hover {
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--accent-glow);
+    border-color: rgba(160, 120, 255, 0.15);
   }
 
   .project > a {
@@ -275,6 +346,7 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
   .project .excerpt p:first-child {
     font-size: 0.9em;
     margin: 0.5rem 0;
+    color: var(--text-secondary);
   }
 
   .project .excerpt .extra {
@@ -296,16 +368,28 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
   }
 
   .tag {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8em;
-    opacity: 0.8;
+    background: var(--surface);
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.75em;
+    opacity: 0.85;
     cursor: default;
+    border: 1px solid var(--surface-border);
+    letter-spacing: 0.02em;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .project:hover .tag {
+    border-color: rgba(160, 120, 255, 0.12);
   }
 
   .state {
-    font-size: 0.7em;
+    background: var(--surface);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    border: 1px solid var(--surface-border);
+    color: var(--text-muted);
   }
 
   .extra {
@@ -313,13 +397,6 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     justify-content: space-between;
     align-items: center;
     margin-top: 1rem;
-  }
-
-  .state {
-    background: rgba(50, 50, 50, 0.2);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
   }
 
   .extra a {
@@ -378,7 +455,179 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
   .contact .methods {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1.5rem;
+  }
+
+  .contact-intro {
+    font-size: 1.05rem;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 40vw;
+  }
+
+  .contact-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--surface-border);
+    border-radius: 10px;
+    background: var(--surface);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    opacity: 1;
+    text-decoration: none;
+  }
+
+  .contact-card:hover {
+    background: var(--surface-hover);
+    border-color: var(--surface-hover);
+    opacity: 1;
+  }
+
+  .contact-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+
+  .contact-value {
+    font-size: 0.95rem;
+    color: var(--main-color);
+    opacity: 0.8;
+  }
+
+  .contact-card:hover .contact-value {
+    opacity: 1;
+  }
+
+  /* Status page */
+  .status-overview {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    margin-bottom: 2rem;
+  }
+
+  .status-overview-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+  }
+
+  .status-overview-text {
+    font-size: 1rem;
+    color: var(--main-color);
+  }
+
+  .status-error {
+    color: #ef4444;
+    font-size: 0.9rem;
+  }
+
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .status-card {
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .status-card:hover {
+    background: var(--surface-hover);
+  }
+
+  .status-card-loading {
+    min-height: 72px;
+  }
+
+  .status-card-name-placeholder,
+  .status-card-meta-placeholder {
+    height: 14px;
+    border-radius: 4px;
+    background: var(--surface-hover);
+  }
+
+  .status-card-name-placeholder {
+    width: 60%;
+    margin-bottom: 0.75rem;
+  }
+
+  .status-card-meta-placeholder {
+    width: 40%;
+  }
+
+  .status-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .status-card-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .status-card-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--main-color);
+  }
+
+  .status-card-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .status-card-ping {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .status-card-uptime {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .status-card-uptime-label {
+    opacity: 0.6;
+    font-size: 0.7rem;
+  }
+
+  .status-footer-note {
+    margin-top: 2rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  @media screen and (max-width: 450px) {
+    .status-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media only screen and (min-width: 840px) {
@@ -429,8 +678,8 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     left: 0;
     right: 0;
     padding: 1rem 2rem;
-    background: rgba(0, 0, 0, 0.1);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--surface);
+    border-top: 1px solid var(--surface-border);
     z-index: 100;
   }
 
@@ -441,7 +690,8 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     left: 0;
     right: 0;
     bottom: 0;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     z-index: -1;
   }
 
@@ -484,26 +734,49 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
   }
 
   .footer-link > svg:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--surface-hover);
   }
 
-  .color-randomizer {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
+  .footer-controls {
     display: flex;
+    gap: 0.5rem;
     align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
   }
 
-  .color-randomizer:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+  .footer-btn {
+    background: none;
+    border: 1px solid var(--surface-border);
+    color: var(--main-color);
+    font-family: var(--uplg-font-primary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    opacity: 0.7;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .footer-btn:hover {
+    opacity: 1;
+    background-color: var(--surface-hover);
+  }
+
+  .footer-btn-debug {
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.5;
+  }
+
+  .footer-btn-debug:hover {
+    opacity: 0.8;
+  }
+
+  .no-js .footer-btn {
+    display: none;
   }
 
   .status-indicator {
@@ -571,7 +844,7 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
   }
 
   .burger-menu:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--surface-hover);
   }
 
   .burger-label {
@@ -590,7 +863,7 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
   }
 
   .burger-label:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--surface-hover);
   }
 
   .burger-line {
@@ -635,8 +908,8 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.5);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--surface);
+    border-top: 1px solid var(--surface-border);
     transform: translateY(100%);
     transition: transform 0.3s ease;
     z-index: 102;
@@ -650,7 +923,8 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     left: 0;
     right: 0;
     bottom: 0;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     z-index: -1;
   }
 
@@ -681,11 +955,11 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
   }
 
   .footer-menu .footer-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--surface-hover);
   }
 
   .footer-menu .footer-link.active {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--surface);
     font-weight: 600;
   }
 
@@ -695,14 +969,15 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
     padding: 0;
   }
 
-  .footer-menu .color-randomizer {
-    font-size: 1.5rem;
-    width: 50px;
-    height: 50px;
+  .footer-menu .footer-controls {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
   }
 
-  .no-js .color-randomizer {
-    display: none;
+  .footer-menu .footer-btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
   }
 
   .no-js .status-indicator {
@@ -767,11 +1042,6 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
       font-size: 0.8rem;
     }
 
-    .color-randomizer {
-      font-size: 1rem;
-      padding: 0.4rem;
-    }
-
     .status-indicator {
       gap: 0.3rem;
     }
@@ -789,10 +1059,5 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
       font-size: 1rem;
     }
 
-    .footer-menu .color-randomizer {
-      font-size: 1.2rem;
-      width: 45px;
-      height: 45px;
-    }
   }
 </style>

@@ -7,15 +7,110 @@ interface FooterProps {
   currentPath?: string;
 }
 
+type RendererType = "auto" | "webgpu" | "webgl2" | "canvas2d";
+
+const RENDERER_LABELS: Record<RendererType, string> = {
+  auto: "Auto",
+  webgpu: "GPU",
+  webgl2: "GL2",
+  canvas2d: "2D",
+};
+
+const RENDERER_ORDER: RendererType[] = ["auto", "webgpu", "webgl2", "canvas2d"];
+
+const LS_THEME_KEY = "theme";
+const LS_RENDERER_KEY = "renderer";
+
+function loadTheme(): "system" | "dark" | "light" {
+  try {
+    const v = localStorage.getItem(LS_THEME_KEY);
+    if (v === "dark" || v === "light") return v;
+  } catch {}
+  return "system";
+}
+
+function loadRenderer(): RendererType {
+  try {
+    const v = localStorage.getItem(LS_RENDERER_KEY);
+    if (v === "webgpu" || v === "webgl2" || v === "canvas2d") return v as RendererType;
+  } catch {}
+  return "auto";
+}
+
+function saveTheme(t: "system" | "dark" | "light") {
+  try {
+    if (t === "system") {
+      localStorage.removeItem(LS_THEME_KEY);
+    } else {
+      localStorage.setItem(LS_THEME_KEY, t);
+    }
+  } catch {}
+}
+
+function saveRenderer(r: RendererType) {
+  try {
+    if (r === "auto") {
+      localStorage.removeItem(LS_RENDERER_KEY);
+    } else {
+      localStorage.setItem(LS_RENDERER_KEY, r);
+    }
+  } catch {}
+}
+
 const Footer = ({ currentPath }: FooterProps): JSX.Element => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [clientPath, setClientPath] = useState<string | undefined>(undefined);
+  const [theme, setTheme] = useState<"system" | "dark" | "light">(loadTheme);
+  const [renderer, setRenderer] = useState<RendererType>(loadRenderer);
   const footerRef = useRef<HTMLElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
 
-  const randomizeColors = () => {
-    window.dispatchEvent(new CustomEvent("randomizeColors"));
+  const cycleTheme = () => {
+    const order: Array<"system" | "dark" | "light"> = [
+      "system",
+      "dark",
+      "light",
+    ];
+    const next = order[(order.indexOf(theme) + 1) % order.length];
+    setTheme(next);
+    saveTheme(next);
+
+    if (next === "system") {
+      // Resolve system preference and apply immediately
+      const isDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+      window.dispatchEvent(
+        new CustomEvent("themeChange", { detail: { dark: isDark } }),
+      );
+    } else {
+      document.documentElement.setAttribute("data-theme", next);
+      window.dispatchEvent(
+        new CustomEvent("themeChange", {
+          detail: { dark: next === "dark" },
+        }),
+      );
+    }
   };
+
+  const cycleRenderer = () => {
+    const next =
+      RENDERER_ORDER[(RENDERER_ORDER.indexOf(renderer) + 1) % RENDERER_ORDER.length];
+    setRenderer(next);
+    saveRenderer(next);
+    window.dispatchEvent(
+      new CustomEvent("forceRenderer", { detail: { renderer: next } }),
+    );
+  };
+
+  const themeIcon = theme === "system" ? "◐" : theme === "dark" ? "●" : "○";
+  const themeTitle =
+    theme === "system"
+      ? "Theme: System"
+      : theme === "dark"
+        ? "Theme: Dark"
+        : "Theme: Light";
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -142,16 +237,22 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
               <GithubLogo />
             </a>
 
-            <button
-              onClick={() => {
-                randomizeColors();
-                closeMenu();
-              }}
-              className="color-randomizer"
-              title="Randomize colors"
-            >
-              🎨
-            </button>
+            <div className="footer-controls">
+              <button
+                onClick={cycleTheme}
+                className="footer-btn"
+                title={themeTitle}
+              >
+                {themeIcon}
+              </button>
+              <button
+                onClick={cycleRenderer}
+                className="footer-btn footer-btn-debug"
+                title={`Renderer: ${RENDERER_LABELS[renderer]}`}
+              >
+                {RENDERER_LABELS[renderer]}
+              </button>
+            </div>
 
             <StatusIndicator />
           </div>
@@ -185,15 +286,22 @@ const Footer = ({ currentPath }: FooterProps): JSX.Element => {
             <GithubLogo />
           </a>
 
-          <button
-            onClick={randomizeColors}
-            className="color-randomizer"
-            title="Randomize colors"
-          >
-            🎨
-          </button>
-
           <StatusIndicator />
+
+          <button
+            onClick={cycleTheme}
+            className="footer-btn"
+            title={themeTitle}
+          >
+            {themeIcon}
+          </button>
+          <button
+            onClick={cycleRenderer}
+            className="footer-btn footer-btn-debug"
+            title={`Renderer: ${RENDERER_LABELS[renderer]}`}
+          >
+            {RENDERER_LABELS[renderer]}
+          </button>
         </div>
       </footer>
     </>

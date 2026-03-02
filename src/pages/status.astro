@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header';
+import StatusPage from '../components/pages/Status';
+---
+
+<Layout title="Status - Uplg." description='Service status and uptime.'>
+	<Header client:load />
+	<StatusPage client:load />
+</Layout>
