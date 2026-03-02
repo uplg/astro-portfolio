@@ -62,6 +62,15 @@ const Projects = (): JSX.Element => {
       tags: ["Go", "Keyboard mappings", "Asahi Linux"],
     },
     {
+      name: "Portfolio",
+      slug: "portfolio",
+      description: "This website.",
+      repository: "https://github.com/uplg/astro-portfolio",
+      status: "published",
+      url: "https://uplg.xyz",
+      tags: ["Astro", "React", "WebGPU", "WebGL2", "no-js"],
+    },
+    {
       name: "Home monitor",
       slug: "home-monitor",
       description: "Control your Tuya cat and Hue BLE devices locally.",
@@ -78,15 +87,6 @@ const Projects = (): JSX.Element => {
       repository: "https://github.com/uplg/teeter",
       url: "https://github.com/uplg/teeter",
       tags: ["Kotlin"],
-    },
-    {
-      name: "Portfolio",
-      slug: "portfolio",
-      description: "This website.",
-      repository: "https://github.com/uplg/astro-portfolio",
-      status: "published",
-      url: "https://uplg.xyz",
-      tags: ["Astro", "Typescript", "React", "WebGPU", "WebGL2", "no-js handling"],
     },
     {
       name: "Backup tool",
