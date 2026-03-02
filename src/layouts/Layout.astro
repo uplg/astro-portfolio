@@ -190,7 +190,10 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
   }
 
   .page {
-    margin: 0 auto;
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom: 50px;
+    margin-left: auto;
     padding: 20px;
   }
 
@@ -201,6 +204,10 @@ const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replac
 
   .hero h1 {
     margin-bottom: 100px;
+  }
+
+  .status .hero h1 {
+    margin-bottom: 0;
   }
 
   .contact .hero h1 {
