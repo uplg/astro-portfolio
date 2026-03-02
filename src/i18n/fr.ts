@@ -28,7 +28,7 @@ export default {
   "home.net.title": "R\u00e9seaux",
   "home.net.desc":
     "Nous avons permis la croissance de grandes communaut\u00e9s, en d\u00e9ployant des infrastructures \u00e0 grande \u00e9chelle.",
-  "home.net.item1": "Identit\u00e9s auto-souveraines",
+  "home.net.item1": "Identit\u00e9s souveraines",
   "home.net.item2": "R\u00e9seaux sur site",
   "home.net.item3": "H\u00e9bergement offshore",
   "home.net.item4": "Surveillance",
