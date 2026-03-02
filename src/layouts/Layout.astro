@@ -15,9 +15,10 @@ const { title, description, locale = "en" } = Astro.props;
 const currentPath = Astro.url.pathname === "/" ? "/" : Astro.url.pathname.replace(/\/$/, "");
 const lang = locale;
 const altLocale: Locale = locale === "fr" ? "en" : "fr";
-const altPath = getAlternatePath(currentPath, altLocale);
+const siteUrl = (Astro.site?.origin ?? "https://uplg.xyz");
+const altPath = siteUrl + getAlternatePath(currentPath, altLocale);
 const altHreflang = altLocale;
-const selfPath = currentPath;
+const selfPath = siteUrl + currentPath;
 ---
 
 <!DOCTYPE html>
