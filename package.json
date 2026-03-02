@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
+    "@astrojs/sitemap": "^3.7.0",
     "astro": "^5.18.0",
     "hsl-to-hex": "^1.0.0",
     "react": "^19.2.4",
