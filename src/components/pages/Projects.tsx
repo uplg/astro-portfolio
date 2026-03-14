@@ -35,7 +35,7 @@ const Projects = ({ locale = "en" }: ProjectsProps): JSX.Element => {
       status: "published",
       repository: "https://github.com/uplg/maison",
       url: "https://github.com/uplg/maison",
-      tags: ["Rust", "React", "Tuya local API", "BLE", "IoT", "Hue", "Typescript"],
+      tags: ["Rust", "React", "Tuya", "BLE", "IoT", "Hue", "Typescript"],
     },
     {
       name: "Dobrunia Design",
