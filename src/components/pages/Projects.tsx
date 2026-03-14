@@ -42,9 +42,10 @@ const Projects = ({ locale = "en" }: ProjectsProps): JSX.Element => {
       slug: "dobrunia",
       descriptionKey: "project.dobrunia.desc",
       status: "published",
+      private: true,
       repository: "https://github.com/uplg/dobrunia-design",
       url: "https://www.dobruniadesign.com",
-      tags: ["Astro", "GraphQL", "Wordpress"],
+      tags: ["Rust", "Astro", "Stripe", "E-commerce", "Typescript"],
     },
     {
       name: "Mula(n)",
