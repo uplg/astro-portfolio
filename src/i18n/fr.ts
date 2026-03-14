@@ -51,7 +51,7 @@ export default {
   "project.asahi-map.desc":
     "Mappings de caract\u00e8res sp\u00e9ciaux Option simples et minimaux sur Asahi Linux\u00a0!",
   "project.portfolio.desc": "Ce site web.",
-  "project.home-monitor.desc": "Contr\u00f4lez vos appareils Tuya et Hue BLE localement.",
+  "project.maison.desc": "Contrôlez vos appareils domestiques localement.",
   "project.teeter.desc":
     "Jeu de labyrinthe bas\u00e9 sur l\u2019acc\u00e9l\u00e9rom\u00e8tre pour Android.",
   "project.backup-tool.desc": "Sauvegarde multi-site, simple, en NodeJS.",

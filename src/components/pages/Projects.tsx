@@ -29,6 +29,15 @@ const Projects = ({ locale = "en" }: ProjectsProps): JSX.Element => {
   const [stars, setStars] = useState<Record<string, number | null>>({});
   const projects: Project[] = [
     {
+      name: "Maison",
+      slug: "maison",
+      descriptionKey: "project.maison.desc",
+      status: "published",
+      repository: "https://github.com/uplg/maison",
+      url: "https://github.com/uplg/maison",
+      tags: ["Rust", "React", "Tuya local API", "BLE", "IoT", "Hue", "Typescript"],
+    },
+    {
       name: "Dobrunia Design",
       slug: "dobrunia",
       descriptionKey: "project.dobrunia.desc",
@@ -74,15 +83,6 @@ const Projects = ({ locale = "en" }: ProjectsProps): JSX.Element => {
       status: "published",
       url: "https://uplg.xyz",
       tags: ["Astro", "React", "WebGPU", "WebGL2", "no-js"],
-    },
-    {
-      name: "Home monitor",
-      slug: "home-monitor",
-      descriptionKey: "project.home-monitor.desc",
-      status: "published",
-      repository: "https://github.com/uplg/home-monitor",
-      url: "https://github.com/uplg/home-monitor",
-      tags: ["ElysiaJS", "React", "Tuya local API", "BLE", "IoT", "Typescript"],
     },
     {
       name: "Teeter",

@@ -51,7 +51,7 @@ export default {
   "project.asahi-map.desc":
     "Easy and minimal Option key special character mappings on Asahi Linux!",
   "project.portfolio.desc": "This website.",
-  "project.home-monitor.desc": "Control your Tuya cat and Hue BLE devices locally.",
+  "project.maison.desc": "Control your home devices locally.",
   "project.teeter.desc": "Accelerometer-based maze app for Android.",
   "project.backup-tool.desc": "Multi-site, simple, backup in NodeJS.",
   "project.summary-swift.desc": "Summarize videos locally with AI on a native app!",
