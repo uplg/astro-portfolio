@@ -11,19 +11,17 @@
     "format": "oxfmt --write src"
   },
   "dependencies": {
-    "@astrojs/react": "^5.0.0",
+    "@astrojs/react": "^5.0.1",
     "@astrojs/sitemap": "^3.7.1",
-    "astro": "^6.0.4",
-    "hsl-to-hex": "^1.0.0",
+    "astro": "^6.0.8",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "@types/hsl-to-hex": "^1.0.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@webgpu/types": "^0.1.69",
-    "oxfmt": "^0.40.0",
-    "oxlint": "^1.55.0"
+    "oxfmt": "^0.41.0",
+    "oxlint": "^1.56.0"
   }
 }
