@@ -65,7 +65,7 @@ const Projects = ({ locale = "en" }: ProjectsProps): JSX.Element => {
       private: true,
       repository: "https://github.com/uplg/art-mineral",
       url: "https://artmineral.fr",
-      tags: ["Astro", "Strapi", "E-commerce", "Typescript"],
+      tags: ["Rust", "Astro", "E-commerce", "Typescript"],
     },
     {
       name: "Asahi Map",
