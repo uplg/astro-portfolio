@@ -48,16 +48,6 @@ const Projects = ({ locale = "en" }: ProjectsProps): JSX.Element => {
       tags: ["Rust", "Astro", "Stripe", "E-commerce", "Typescript"],
     },
     {
-      name: "Mula(n)",
-      slug: "mulan",
-      descriptionKey: "project.mulan.desc",
-      status: "published",
-      private: false,
-      repository: "https://github.com/uplg/mulan",
-      url: "https://github.com/uplg/mulan",
-      tags: ["Python", "MLX", "HeartMuLa", "FastAPI", "React", "Typescript"],
-    },
-    {
       name: "Art min\u00e9ral",
       slug: "art-mineral",
       descriptionKey: "project.art-mineral.desc",
@@ -66,6 +56,16 @@ const Projects = ({ locale = "en" }: ProjectsProps): JSX.Element => {
       repository: "https://github.com/uplg/art-mineral",
       url: "https://artmineral.fr",
       tags: ["Rust", "Astro", "E-commerce", "Typescript"],
+    },
+    {
+      name: "Mula(n)",
+      slug: "mulan",
+      descriptionKey: "project.mulan.desc",
+      status: "published",
+      private: false,
+      repository: "https://github.com/uplg/mulan",
+      url: "https://github.com/uplg/mulan",
+      tags: ["Python", "MLX", "HeartMuLa", "FastAPI", "React", "Typescript"],
     },
     {
       name: "Asahi Map",
