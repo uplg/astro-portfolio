@@ -29,13 +29,11 @@ const selfPath = siteUrl + currentPath;
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://status.uplg.xyz">
-    <link rel="preconnect" href="https://plausible.uplg.xyz">
     <link rel="alternate" hreflang={lang} href={selfPath} />
     <link rel="alternate" hreflang={altHreflang} href={altPath} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <ClientRouter fallback="swap" />
-    <script defer is:inline data-domain="uplg.xyz" src="https://plausible.uplg.xyz/js/script.js"></script>
   </head>
   <body class="no-js">
     <script is:inline>
