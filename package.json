@@ -11,17 +11,17 @@
     "format": "oxfmt --write src"
   },
   "dependencies": {
-    "@astrojs/react": "^5.0.1",
-    "@astrojs/sitemap": "^3.7.1",
-    "astro": "^6.0.8",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "@astrojs/react": "^5.0.4",
+    "@astrojs/sitemap": "^3.7.2",
+    "astro": "^6.1.9",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "devDependencies": {
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@webgpu/types": "^0.1.69",
-    "oxfmt": "^0.41.0",
-    "oxlint": "^1.56.0"
+    "oxfmt": "^0.46.0",
+    "oxlint": "^1.61.0"
   }
 }
