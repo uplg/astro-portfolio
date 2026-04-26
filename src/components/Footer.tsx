@@ -32,7 +32,7 @@ function saveTheme(t: "system" | "dark" | "light") {
 const Footer = ({ currentPath, locale = "en" }: FooterProps): JSX.Element => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [clientPath, setClientPath] = useState<string | undefined>(undefined);
-  const [theme, setTheme] = useState<"system" | "dark" | "light">(loadTheme);
+  const [theme, setTheme] = useState<"system" | "dark" | "light">("system");
   const footerRef = useRef<HTMLElement>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
 
@@ -109,6 +109,10 @@ const Footer = ({ currentPath, locale = "en" }: FooterProps): JSX.Element => {
     const pathToCheck = clientPath || currentPath;
     return pathToCheck === href;
   };
+
+  useEffect(() => {
+    setTheme(loadTheme());
+  }, []);
 
   useEffect(() => {
     const updatePath = () => {
