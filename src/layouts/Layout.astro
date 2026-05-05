@@ -438,7 +438,12 @@ const selfPath = siteUrl + currentPath;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    max-width: 40vw;
+  }
+
+  @media only screen and (min-width: 840px) {
+    .contact-links {
+      max-width: 50vw;
+    }
   }
 
   .contact-card {
