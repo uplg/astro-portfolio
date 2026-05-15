@@ -47,6 +47,7 @@ export default {
   // Project descriptions
   "project.dobrunia.desc": "Custom objects & interior design.",
   "project.mulan.desc": "Generate songs using HeartMuLa on Apple silicon.",
+  "project.iris.desc": "Your own micro-Netflix, powered by Rust, Kotlin, and React!",
   "project.art-mineral.desc": "E-commerce website for minerals and custom objects.",
   "project.asahi-map.desc":
     "Easy and minimal Option key special character mappings on Asahi Linux!",
