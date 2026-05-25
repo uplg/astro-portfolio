@@ -152,7 +152,7 @@ const Projects = ({ locale = "en" }: ProjectsProps): JSX.Element => {
       repository: "https://github.com/uplg/cheno-website",
       private: true,
       url: "https://www.cheno.fr",
-      tags: ["Astro", "Instagram Private API", "Hono", "Typescript"],
+      tags: ["Astro", "Instagram Private API", "Rust"],
     },
     {
       name: "Video summarizer",
