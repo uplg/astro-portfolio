@@ -1,37 +1,30 @@
 import { useEffect, useState, type JSX } from "react";
 import { t, type Locale } from "../../i18n";
 
-interface Heartbeat {
-  status: number;
-  time: string;
-  msg: string;
-  ping: number | null;
-}
+const STATUS_BASE = "https://status.uplg.xyz";
 
-interface Monitor {
-  id: number;
+type MonitorState = "up" | "down" | "degraded" | "unknown";
+
+interface HoraMonitor {
+  id: string;
   name: string;
-  type: string;
+  status: MonitorState;
+  last_latency_ms: number | null;
+  uptime_24h_permille: number | null;
+  cert_expiry_days: number | null;
 }
 
-interface MonitorGroup {
-  name: string;
-  monitorList: Monitor[];
-}
-
-interface StatusPageResponse {
-  publicGroupList: MonitorGroup[];
-}
-
-interface HeartbeatResponse {
-  heartbeatList: Record<string, Heartbeat[]>;
-  uptimeList: Record<string, number>;
+interface HoraSummary {
+  overall: MonitorState;
+  overall_label: string;
+  generated_at: string;
+  monitors: HoraMonitor[];
 }
 
 interface ServiceStatus {
-  id: number;
+  id: string;
   name: string;
-  status: "up" | "down" | "pending" | "maintenance";
+  status: MonitorState;
   ping: number | null;
   uptime24h: number | null;
 }
@@ -49,42 +42,16 @@ const Status = ({ locale = "en" }: StatusProps): JSX.Element => {
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const [pageRes, heartbeatRes] = await Promise.all([
-          fetch("https://status.uplg.xyz/api/status-page/uplg"),
-          fetch("https://status.uplg.xyz/api/status-page/heartbeat/uplg"),
-        ]);
+        const res = await fetch(`${STATUS_BASE}/api/summary`);
+        const data: HoraSummary = await res.json();
 
-        const pageData: StatusPageResponse = await pageRes.json();
-        const heartbeatData: HeartbeatResponse = await heartbeatRes.json();
-
-        const monitors: Monitor[] = [];
-        for (const group of pageData.publicGroupList) {
-          for (const m of group.monitorList) {
-            monitors.push(m);
-          }
-        }
-
-        const result: ServiceStatus[] = monitors.map((m) => {
-          const beats = heartbeatData.heartbeatList[String(m.id)] || [];
-          const latest = beats.length > 0 ? beats[beats.length - 1] : null;
-          const uptimeKey = `${m.id}_24`;
-          const uptime = heartbeatData.uptimeList[uptimeKey] ?? null;
-
-          let status: ServiceStatus["status"] = "pending";
-          if (latest) {
-            if (latest.status === 1) status = "up";
-            else if (latest.status === 0) status = "down";
-            else if (latest.status === 3) status = "maintenance";
-          }
-
-          return {
-            id: m.id,
-            name: m.name,
-            status,
-            ping: latest?.ping ?? null,
-            uptime24h: uptime !== null ? Math.round(uptime * 10000) / 100 : null,
-          };
-        });
+        const result: ServiceStatus[] = data.monitors.map((m) => ({
+          id: m.id,
+          name: m.name,
+          status: m.status,
+          ping: m.last_latency_ms,
+          uptime24h: m.uptime_24h_permille !== null ? m.uptime_24h_permille / 10 : null,
+        }));
 
         setServices(result);
         setLastUpdated(new Date());
@@ -146,7 +113,7 @@ const Status = ({ locale = "en" }: StatusProps): JSX.Element => {
                           ? "#10b981"
                           : s.status === "down"
                             ? "#ef4444"
-                            : s.status === "maintenance"
+                            : s.status === "degraded"
                               ? "#f59e0b"
                               : "#6b7280",
                     }}
@@ -170,8 +137,8 @@ const Status = ({ locale = "en" }: StatusProps): JSX.Element => {
         <p className="status-footer-note">
           {t(locale, "status.last_updated")} {lastUpdated.toLocaleTimeString()}
           {" · "}
-          <a href="https://status.uplg.xyz/status/uplg" target="_blank" rel="noopener noreferrer">
-            Uptime Kuma
+          <a href={`${STATUS_BASE}/`} target="_blank" rel="noopener noreferrer">
+            Hora
           </a>
         </p>
       )}

@@ -1,16 +1,10 @@
 import { useEffect, useState, type JSX } from "react";
 import { t, type Locale } from "../i18n";
 
-interface Heartbeat {
-  status: number; // 0=DOWN, 1=UP, 2=PENDING, 3=MAINTENANCE
-  time: string;
-  msg: string;
-  ping: number | null;
-}
+const STATUS_BASE = "https://status.uplg.xyz";
 
-interface StatusResponse {
-  heartbeatList: Record<string, Heartbeat[]>;
-  uptimeList: Record<string, number>;
+interface HoraSummary {
+  overall: "up" | "down" | "degraded" | "unknown";
 }
 
 interface StatusIndicatorProps {
@@ -23,16 +17,9 @@ const StatusIndicator = ({ locale = "en" }: StatusIndicatorProps): JSX.Element =
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const response = await fetch("https://status.uplg.xyz/api/status-page/heartbeat/uplg");
-        const data: StatusResponse = await response.json();
-
-        const isAnyServiceDown = Object.values(data.heartbeatList).some((heartbeats) => {
-          if (heartbeats.length === 0) return true;
-          const latestHeartbeat = heartbeats[heartbeats.length - 1];
-          return latestHeartbeat.status === 0 || latestHeartbeat.status === 3;
-        });
-
-        setStatus(isAnyServiceDown ? "degraded" : "operational");
+        const response = await fetch(`${STATUS_BASE}/api/summary`);
+        const data: HoraSummary = await response.json();
+        setStatus(data.overall === "up" ? "operational" : "degraded");
       } catch (error) {
         console.error("Failed to fetch status:", error);
         setStatus("degraded");
