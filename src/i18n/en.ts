@@ -48,6 +48,7 @@ export default {
   "project.dobrunia.desc": "Custom objects & interior design.",
   "project.mulan.desc": "Generate songs using HeartMuLa on Apple silicon.",
   "project.iris.desc": "Your own micro-Netflix.",
+  "project.hora.desc": "A tiny, self-hosted uptime monitor.",
   "project.lana.desc": "Experimental AI assistant that talks and moves!",
   "project.subh.desc": "Online jamming on steroids with minimal latency",
   "project.art-mineral.desc": "E-commerce website for minerals and custom objects.",

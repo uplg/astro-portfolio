@@ -29,6 +29,16 @@ const Projects = ({ locale = "en" }: ProjectsProps): JSX.Element => {
   const [stars, setStars] = useState<Record<string, number | null>>({});
   const projects: Project[] = [
     {
+      name: "Hora",
+      slug: "hora",
+      private: false,
+      descriptionKey: "project.hora.desc",
+      status: "published",
+      repository: "https://github.com/uplg/hora",
+      url: "https://github.com/uplg/hora",
+      tags: ["Rust", "Tokio", "Docker"],
+    },
+    {
       name: "Iris",
       slug: "iris",
       private: false,
