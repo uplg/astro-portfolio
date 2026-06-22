@@ -1,7 +1,6 @@
 import { useEffect, useState, type JSX } from "react";
 import { t, type Locale } from "../i18n";
-
-const STATUS_BASE = "https://status.uplg.xyz";
+import { STATUS_BASE } from "../lib/hora";
 
 interface HoraSummary {
   overall: "up" | "down" | "degraded" | "unknown";
